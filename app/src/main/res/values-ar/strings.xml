@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">محمل الفيديو</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">محمل الفيديو\nالشامل</string>
+    <string name="onboarding_subtitle">قم بتنزيل مقاطع الفيديو والموسيقى من أي منصة في مكان واحد.</string>
+    <string name="onboarding_1_title">محمل الفيديو\nالشامل</string>
+    <string name="onboarding_1_subtitle">قم بتنزيل مقاطع الفيديو والموسيقى من أي منصة في مكان واحد.</string>
+    <string name="onboarding_2_title">تنزيل سريع\nوسهل</string>
+    <string name="onboarding_2_subtitle">تنزيلات فائقة السرعة مع تجربة سلسة وبسيطة.</string>
+    <string name="onboarding_3_title">آمن وموثوق\nوخاص</string>
+    <string name="onboarding_3_subtitle">تنزيلاتك آمنة وخاصة بنسبة 100%. نحن نحترم خصوصيتك.</string>
+    <string name="btn_next">التالي   →</string>
+    <string name="btn_get_started">ابدأ الآن   →</string>
+
+    <!-- Language Screen -->
+    <string name="language_title">اختر لغتك</string>
+    <string name="language_subtitle">حدد لغتك المفضلة للمتابعة</string>
+    <string name="btn_continue">متابعة</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome">مرحبًا بعودتك! 👋</string>
+    <string name="home_subtitle">قم بتنزيل مقاطع الفيديو من أي منصة بسرعة وسهولة</string>
+    <string name="home_paste_title">الصق رابط الفيديو هنا</string>
+    <string name="home_url_placeholder">https://example.com/video/12345</string>
+    <string name="btn_download">تنزيل</string>
+    <string name="home_quick_actions">إجراءات سريعة</string>
+
+    <!-- Download Flow Sheets -->
+    <string name="flow_choose_type_title">اختر نوع التنزيل</string>
+    <string name="flow_choose_type_subtitle">حدد ما تريد تنزيله.</string>
+    <string name="flow_option_video_title">فيديو</string>
+    <string name="flow_option_video_subtitle">تنزيل الفيديو فقط</string>
+    <string name="flow_option_audio_title">صوت</string>
+    <string name="flow_option_audio_subtitle">تنزيل الصوت فقط</string>
+    <string name="btn_cancel">إلغاء</string>
+
+    <string name="flow_downloading_video">جارٍ تنزيل الفيديو...</string>
+    <string name="flow_downloading_audio">جارٍ تنزيل الصوت...</string>
+    <string name="flow_just_video">فيديو فقط</string>
+    <string name="flow_just_audio">صوت فقط</string>
+    <string name="flow_label_filename">اسم الملف</string>
+    <string name="flow_label_size">الحجم</string>
+    <string name="flow_label_time_remaining">الوقت المتبقي</string>
+    <string name="flow_cancel_download">إلغاء التنزيل</string>
+
+    <string name="flow_complete_title">اكتمل التنزيل!</string>
+    <string name="flow_view_in_downloads">عرض في التنزيلات</string>
+    <string name="flow_close">إغلاق</string>
+    <string name="home_bookmarks">الإشارات المرجعية</string>
+    <string name="home_bookmarks_sub">عرض الروابط المحفوظة</string>
+    <string name="home_share_app">مشاركة التطبيق</string>
+    <string name="home_share_app_sub">شارك مع الأصدقاء</string>
+    <string name="home_recent_downloads">التنزيلات الحديثة</string>
+    <string name="home_view_all">عرض الكل</string>
+    <string name="home_ad_label">إعلان</string>
+    <string name="home_ad_placeholder">إعلانك هنا</string>
+    <string name="pro_btn_label">PRO</string>
+
+    <!-- Bottom Nav -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_downloads">التنزيلات</string>
+    <string name="nav_history">السجل</string>
+    <string name="nav_bookmarks">الإشارات</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Sidebar -->
+    <string name="sidebar_app_name">محمل الفيديو</string>
+    <string name="sidebar_premium_badge">بريميوم</string>
+    <string name="sidebar_home">الرئيسية</string>
+    <string name="sidebar_downloads">التنزيلات</string>
+    <string name="sidebar_history">السجل</string>
+    <string name="sidebar_share_app">مشاركة التطبيق</string>
+    <string name="sidebar_settings">الإعدادات</string>
+    <string name="sidebar_dark_mode">الوضع الداكن</string>
+    <string name="sidebar_rate_us">قيمنا</string>
+    <string name="sidebar_help">المساعدة والدعم</string>
+    <string name="sidebar_privacy">سياسة الخصوصية</string>
+    <string name="sidebar_terms">الشروط والأحكام</string>
+    <string name="sidebar_about">حول التطبيق</string>
+    <string name="sidebar_logout">تسجيل الخروج</string>
+    <string name="sidebar_language">اللغة</string>
+
+    <!-- Pro Screen -->
+    <string name="pro_title">الترقية إلى بريميوم</string>
+    <string name="pro_badge">PRO</string>
+    <string name="pro_subtitle">افتح جميع الميزات واستمتع بتجربة سريعة وخالية من الإعلانات</string>
+    <string name="pro_benefits_title">مزايا بريميوم</string>
+    <string name="pro_benefit_no_ads">بدون إعلانات</string>
+    <string name="pro_benefit_no_ads_sub">استمتع بتجربة خالية من الإعلانات</string>
+    <string name="pro_benefit_faster">تنزيل أسرع بمرتين</string>
+    <string name="pro_benefit_faster_sub">تنزيل بأقصى سرعة ممكنة</string>
+    <string name="pro_benefit_hd">تنزيل فائق الدقة</string>
+    <string name="pro_benefit_hd_sub">تنزيل بجودة 4K العالية</string>
+    <string name="pro_benefit_unlimited">تنزيلات غير محدودة</string>
+    <string name="pro_benefit_unlimited_sub">قم بتنزيل ما تشاء دون قيود</string>
+    <string name="pro_plan_title">اختر خطتك</string>
+    <string name="pro_secure_payments">دفع آمن ومحمي</string>
+    <string name="pro_plan_monthly">شهري</string>
+    <string name="pro_plan_monthly_billing">فاتورة شهرية</string>
+    <string name="pro_plan_monthly_price">$2.99</string>
+    <string name="pro_plan_monthly_unit">/شهر</string>
+    <string name="pro_plan_yearly">سنوي</string>
+    <string name="pro_plan_yearly_billing">فاتورة سنوية</string>
+    <string name="pro_plan_yearly_price">$14.99</string>
+    <string name="pro_plan_yearly_unit">/سنة</string>
+    <string name="pro_plan_yearly_badge">وفر 58%</string>
+    <string name="pro_plan_lifetime">مدى الحياة</string>
+    <string name="pro_plan_lifetime_billing">دفع لمرة واحدة</string>
+    <string name="pro_plan_lifetime_price">$29.99</string>
+    <string name="pro_plan_lifetime_unit"> مرة واحدة</string>
+    <string name="pro_plan_lifetime_badge">أفضل قيمة</string>
+    <string name="pro_most_popular">الأكثر شعبية</string>
+    <string name="pro_select">اختيار</string>
+    <string name="btn_go_premium">احصل على بريميوم الآن</string>
+    <string name="pro_fine_print">إلغاء في أي وقت  •  بدون رسوم خفية</string>
+
+    <!-- Bookmarks Screen -->
+    <string name="bookmark_title">الإشارات المرجعية</string>
+    <string name="bookmark_search_hint">بحث في الإشارات</string>
+    <string name="bookmark_on">تم الحفظ في</string>
+    <string name="bookmark_empty_title">لا توجد إشارات مرجعية بعد</string>
+    <string name="bookmark_empty_subtitle">مقاطع الفيديو التي تحفظها ستظهر هنا</string>
+
+    <!-- Downloads screen -->
+    <string name="dl_tab_all">الكل (%d)</string>
+    <string name="dl_tab_video">فيديو (%d)</string>
+    <string name="dl_tab_audio">صوت (%d)</string>
+    <string name="dl_tab_downloading">جارٍ التنزيل (%d)</string>
+    <string name="dl_storage_used">المساحة المستخدمة</string>
+    <string name="dl_storage_percent">19%% مستخدم</string>
+    <string name="dl_pause_all">إيقاف الكل مؤقتًا</string>
+    <string name="dl_section_downloading">جارٍ التنزيل (%d)</string>
+    <string name="dl_section_downloaded">تم التنزيل (%d)</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_download_location">موقع التنزيل</string>
+    <string name="settings_internal_storage">وحدة التخزين الداخلية</string>
+    <string name="settings_video_quality">جودة الفيديو</string>
+    <string name="settings_wifi_only">تنزيل عبر Wi-Fi فقط</string>
+    <string name="settings_auto_download">تنزيل تلقائي</string>
+    <string name="settings_clear_cache">مسح الذاكرة المؤقتة</string>
+    <string name="settings_rate_us">قيمنا</string>
+    <string name="settings_privacy_policy">سياسة الخصوصية</string>
+    <string name="settings_about_app">حول التطبيق</string>
+    <string name="settings_cache_cleared">تم مسح الذاكرة المؤقتة بنجاح!</string>
+
+    <!-- Help & Support Screen -->
+    <string name="help_title">المساعدة والدعم</string>
+    <string name="help_header_title">كيف يمكننا مساعدتك؟</string>
+    <string name="help_header_subtitle">اعثر على إجابات للأسئلة الشائعة أو تواصل مع فريق الدعم لدينا.</string>
+    <string name="help_search_placeholder">البحث عن مساعدة...</string>
+    <string name="help_faq_title">الأسئلة الشائعة</string>
+    <string name="help_faq_view_all">عرض الكل</string>
+    <string name="help_contact_support_title">اتصل بالدعم</string>
+    <string name="help_live_chat">الدردشة المباشرة</string>
+    <string name="help_live_chat_sub">تحدث معنا</string>
+    <string name="help_email_us">راسلنا عبر البريد</string>
+    <string name="help_email_us_sub">support@videodownloader.com</string>
+    <string name="help_submit_ticket">إرسال تذكرة</string>
+    <string name="help_submit_ticket_sub">احصل على مساعدة سريعة</string>
+    <string name="help_help_center">مركز المساعدة</string>
+    <string name="help_help_center_sub">تصفح المقالات</string>
+    <string name="help_still_need_help">هل ما زلت بحاجة لمساعدة؟</string>
+    <string name="help_still_need_help_sub">فريق الدعم لدينا مستعد لمساعدتك على مدار الساعة.</string>
+    <string name="help_btn_contact_us">اتصل بنا</string>
+    <string name="help_24_7_title">نحن هنا لمساعدتك على مدار الساعة 24/7</string>
+    <string name="help_24_7_sub">رضاكم هو أولويتنا القصوى.</string>
+
+    <!-- FAQ Items -->
+    <string name="faq_q1">كيف أقوم بتنزيل مقطع فيديو؟</string>
+    <string name="faq_a1">1. انسخ رابط الفيديو من أي منصة.\n2. افتح التطبيق والصق الرابط في مربع البحث.\n3. اضغط على \'تنزيل\' واختر الصيغة والجودة المطلوبة.</string>
+    <string name="faq_q2">أين أجد تنزيلاتي؟</string>
+    <string name="faq_a2">تظهر جميع الملفات التي تم تنزيلها في علامة تبويب \'التنزيلات\' وفي وحدة تخزين جهازك.</string>
+    <string name="faq_q3">كيف يمكن التنزيل بجودة عالية HD؟</string>
+    <string name="faq_a3">عند ظهور نافذة التنسيقات، اختر دقة 1080p أو 4K إذا كانت مدعومة في الفيديو الأصلي.</string>
+    <string name="faq_q4">لماذا توقف التنزيل مؤقتًا أو فشل؟</string>
+    <string name="faq_a4">في حالة انقطاع الاتصال، اضغط على زر إعادة المحاولة بجوار العنصر لمتابعة التنزيل.</string>
+    <string name="faq_q5">هل بياناتي الشخصية آمنة؟</string>
+    <string name="faq_a5">نعم، آمنة بنسبة 100%. نحن لا نجمع أو نتتبع أي معلومات شخصية على خوادمنا.</string>
+
+    <!-- Privacy Policy Screen -->
+    <string name="privacy_title">سياسة الخصوصية</string>
+    <string name="privacy_header_title">خصوصيتك هي أولويتنا</string>
+    <string name="privacy_header_subtitle">نحن ملتزمون بحماية خصوصيتك وضمان تجربة آمنة لك أثناء استخدام التطبيق.</string>
+    <string name="privacy_contact_title">اتصل بنا</string>
+    <string name="privacy_contact_desc">إذا كانت لديك أي أسئلة، يرجى مراسلتنا على support@videodownloader.com</string>
+    <string name="privacy_last_updated">آخر تحديث: 20 مايو 2024</string>
+
+    <string name="privacy_sec1_title">1. المعلومات التي نجمعها</string>
+    <string name="privacy_sec1_desc">نحن لا نجمع أي معلومات شخصية مثل الاسم أو رقم الهاتف.</string>
+    <string name="privacy_sec2_title">2. كيفية استخدام المعلومات</string>
+    <string name="privacy_sec2_desc">تُستخدم البيانات فقط لتسهيل تنزيل الوسائط وتحسين أداء التطبيق محليًا على جهازك.</string>
+    <string name="privacy_sec3_title">3. أمان البيانات</string>
+    <string name="privacy_sec3_desc">تستخدم جميع الاتصالات تشفيرًا آمنًا ويتم حفظ الملفات مباشرة في جهازك.</string>
+    <string name="privacy_sec4_title">4. خدمات الطرف الثالث</string>
+    <string name="privacy_sec4_desc">يتفاعل التطبيق مع مزودي المحتوى لجلب الوسائط العامة المطلوبة.</string>
+    <string name="privacy_sec5_title">5. خياراتك وتحكمك</string>
+    <string name="privacy_sec5_desc">يمكنك مسح السجل والذاكرة المؤقتة في أي وقت من خلال الإعدادات.</string>
+    <string name="privacy_sec6_title">6. التغييرات في السياسة</string>
+    <string name="privacy_sec6_desc">قد نقوم بتحديث سياسة الخصوصية دوريًا وسنعلن عن ذلك هنا.</string>
+
+    <!-- About App Screen -->
+    <string name="about_title">حول التطبيق</string>
+    <string name="about_app_name">محمل الفيديو</string>
+    <string name="about_version_badge">الإصدار 1.0.0</string>
+    <string name="about_tagline">قم بتنزيل مقاطع الفيديو من أي منصة بسرعة وسهولة وأمان.</string>
+    <string name="about_feature_fast">تنزيل فائق السرعة</string>
+    <string name="about_feature_fast_sub">تنزيل مقاطع الفيديو بسرعة عالية.</string>
+    <string name="about_feature_safe">آمن ومحمي</string>
+    <string name="about_feature_safe_sub">تنزيلات آمنة بنسبة 100%.</string>
+    <string name="about_feature_hd">جودة HD فائقة</string>
+    <string name="about_feature_hd_sub">دعم مقاطع فيديو HD و 4K.</string>
+    <string name="about_feature_manage">إدارة سهلة</string>
+    <string name="about_feature_manage_sub">نظم تنزيلاتك بكل سهولة ويسر.</string>
+    <string name="about_meta_version">إصدار التطبيق</string>
+    <string name="about_meta_version_val">1.0.0</string>
+    <string name="about_meta_release">تاريخ الإصدار</string>
+    <string name="about_meta_release_val">24 أغسطس 2026</string>
+    <string name="about_meta_developer">المطور</string>
+    <string name="about_meta_developer_val">Smart Tools Studio</string>
+    <string name="about_meta_website">الموقع الإلكتروني</string>
+    <string name="about_meta_website_val">www.videodownloader.com</string>
+    <string name="about_footer_made_with">صُنع بحب ❤️ لتجربة أفضل</string>
+
+    <!-- Rate App Screen -->
+    <string name="rate_title">قيمنا</string>
+    <string name="rate_hero_enjoying">هل يعجبك التطبيق؟</string>
+    <string name="rate_hero_sub">إذا أعجبك تطبيق محمل الفيديو، يرجى قضاء لحظة لتقييمنا.</string>
+    <string name="rate_tap_to_rate">اضغط للتقييم</string>
+    <string name="rate_submit_btn">إرسال التقييم</string>
+    <string name="rate_maybe_later_btn">ربما لاحقًا</string>
+    <string name="rate_lbl_0">اختر تقييمك</string>
+    <string name="rate_lbl_1">يحتاج إلى تحسين</string>
+    <string name="rate_lbl_2">يمكن أن يكون أفضل</string>
+    <string name="rate_lbl_3">تجربة جيدة</string>
+    <string name="rate_lbl_4">أعجبني حقًا!</string>
+    <string name="rate_lbl_5">ممتاز! أفضل تطبيق! ⭐</string>
+
+    <!-- Share App Screen -->
+    <string name="share_title">مشاركة التطبيق</string>
+    <string name="share_hero_title">مشاركة محمل\nالفيديو</string>
+    <string name="share_hero_sub">شارك التطبيق مع أصدقائك وساعدهم على تنزيل الفيديوهات بسهولة!</string>
+    <string name="share_referral_title">رمز الإحالة الخاص بك</string>
+    <string name="share_referral_sub">يمكن لأصدقائك استخدام هذا الرمز للتعرف عليك.</string>
+    <string name="share_via_title">مشاركة عبر</string>
+    <string name="share_why_title">لماذا تشارك التطبيق؟</string>
+    <string name="share_reason_1_title">ساعد أصدقاءك</string>
+    <string name="share_reason_1_sub">ساعد أصدقاءك على اكتشاف محمل فيديو رائع.</string>
+    <string name="share_reason_2_title">احصل على مكافآت</string>
+    <string name="share_reason_2_sub">اربح مكافآت مميزة عندما يستخدم أصدقاؤك التطبيق.</string>
+    <string name="share_reason_3_title">آمن ومحمي</string>
+    <string name="share_reason_3_sub">تطبيق آمن 100%، ونحن نحترم خصوصيتك.</string>
+    <string name="share_invite_title">ادعُ المزيد، اربح المزيد!</string>
+    <string name="share_invite_sub">كلما دعوت أصدقاء أكثر، حصلت على مكافآت أكبر.</string>
+    <string name="share_btn_rewards">عرض\nالمكافآت ›</string>
+</resources>

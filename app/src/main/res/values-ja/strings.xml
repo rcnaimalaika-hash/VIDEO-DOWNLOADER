@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">動画ダウンローダー</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">オールインワン\n動画ダウンローダー</string>
+    <string name="onboarding_subtitle">あらゆるプラットフォームから動画や音楽をまとめて保存。</string>
+    <string name="onboarding_1_title">オールインワン\n動画ダウンローダー</string>
+    <string name="onboarding_1_subtitle">あらゆるプラットフォームから動画や音楽をまとめて保存。</string>
+    <string name="onboarding_2_title">高速で簡単な\nダウンロード</string>
+    <string name="onboarding_2_subtitle">シンプルで滑らかな体験で超高速ダウンロード。</string>
+    <string name="onboarding_3_title">安全・安心\nプライベート</string>
+    <string name="onboarding_3_subtitle">ダウンロードは100%安全でプライベートです。</string>
+    <string name="btn_next">次へ   →</string>
+    <string name="btn_get_started">使ってみる   →</string>
+
+    <!-- Language Screen -->
+    <string name="language_title">言語を選択</string>
+    <string name="language_subtitle">続行する言語を選択してください</string>
+    <string name="btn_continue">続行</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome">おかえりなさい！ 👋</string>
+    <string name="home_subtitle">あらゆるプラットフォームから素早く簡単に動画を保存</string>
+    <string name="home_paste_title">動画のリンクをここに貼り付け</string>
+    <string name="home_url_placeholder">https://example.com/video/12345</string>
+    <string name="btn_download">ダウンロード</string>
+    <string name="home_quick_actions">クイック操作</string>
+
+    <!-- Download Flow Sheets -->
+    <string name="flow_choose_type_title">ダウンロード形式を選択</string>
+    <string name="flow_choose_type_subtitle">ダウンロードしたい形式を選択してください。</string>
+    <string name="flow_option_video_title">動画</string>
+    <string name="flow_option_video_subtitle">動画のみをダウンロード</string>
+    <string name="flow_option_audio_title">音声</string>
+    <string name="flow_option_audio_subtitle">音声のみをダウンロード</string>
+    <string name="btn_cancel">キャンセル</string>
+
+    <string name="flow_downloading_video">動画をダウンロード中...</string>
+    <string name="flow_downloading_audio">音声をダウンロード中...</string>
+    <string name="flow_just_video">動画のみ</string>
+    <string name="flow_just_audio">音声のみ</string>
+    <string name="flow_label_filename">ファイル名</string>
+    <string name="flow_label_size">サイズ</string>
+    <string name="flow_label_time_remaining">残り時間</string>
+    <string name="flow_cancel_download">ダウンロードをキャンセル</string>
+
+    <string name="flow_complete_title">ダウンロード完了！</string>
+    <string name="flow_view_in_downloads">ダウンロード一覧で確認</string>
+    <string name="flow_close">閉じる</string>
+    <string name="home_bookmarks">ブックマーク</string>
+    <string name="home_bookmarks_sub">保存したリンクを確認</string>
+    <string name="home_share_app">アプリを共有</string>
+    <string name="home_share_app_sub">友達に教える</string>
+    <string name="home_recent_downloads">最近のダウンロード</string>
+    <string name="home_view_all">すべて見る</string>
+    <string name="home_ad_label">広告</string>
+    <string name="home_ad_placeholder">広告スペース</string>
+    <string name="pro_btn_label">PRO</string>
+
+    <!-- Bottom Nav -->
+    <string name="nav_home">ホーム</string>
+    <string name="nav_downloads">ダウンロード</string>
+    <string name="nav_history">履歴</string>
+    <string name="nav_bookmarks">ブックマーク</string>
+    <string name="nav_settings">設定</string>
+
+    <!-- Sidebar -->
+    <string name="sidebar_app_name">動画ダウンローダー</string>
+    <string name="sidebar_premium_badge">プレミアム</string>
+    <string name="sidebar_home">ホーム</string>
+    <string name="sidebar_downloads">ダウンロード</string>
+    <string name="sidebar_history">履歴</string>
+    <string name="sidebar_share_app">アプリを共有</string>
+    <string name="sidebar_settings">設定</string>
+    <string name="sidebar_dark_mode">ダークモード</string>
+    <string name="sidebar_rate_us">評価する</string>
+    <string name="sidebar_help">ヘルプ＆サポート</string>
+    <string name="sidebar_privacy">プライバシーポリシー</string>
+    <string name="sidebar_terms">利用規約</string>
+    <string name="sidebar_about">アプリについて</string>
+    <string name="sidebar_logout">ログアウト</string>
+    <string name="sidebar_language">言語</string>
+
+    <!-- Pro Screen -->
+    <string name="pro_title">プレミアムへアップグレード</string>
+    <string name="pro_badge">PRO</string>
+    <string name="pro_subtitle">すべての機能を解放し、快適な広告なし体験をお楽しみください</string>
+    <string name="pro_benefits_title">プレミアム特典</string>
+    <string name="pro_benefit_no_ads">広告なし</string>
+    <string name="pro_benefit_no_ads_sub">快適な広告なし体験</string>
+    <string name="pro_benefit_faster">2倍高速ダウンロード</string>
+    <string name="pro_benefit_faster_sub">最高速度でダウンロード</string>
+    <string name="pro_benefit_hd">ウルトラHD保存</string>
+    <string name="pro_benefit_hd_sub">4K高画質対応</string>
+    <string name="pro_benefit_unlimited">無制限ダウンロード</string>
+    <string name="pro_benefit_unlimited_sub">制限なしで好きなだけ保存</string>
+    <string name="pro_plan_title">プランを選択</string>
+    <string name="pro_secure_payments">安全・安心な決済</string>
+    <string name="pro_plan_monthly">月額</string>
+    <string name="pro_plan_monthly_billing">月額課金</string>
+    <string name="pro_plan_monthly_price">$2.99</string>
+    <string name="pro_plan_monthly_unit">/月</string>
+    <string name="pro_plan_yearly">年額</string>
+    <string name="pro_plan_yearly_billing">年額課金</string>
+    <string name="pro_plan_yearly_price">$14.99</string>
+    <string name="pro_plan_yearly_unit">/年</string>
+    <string name="pro_plan_yearly_badge">58%お得</string>
+    <string name="pro_plan_lifetime">買い切り</string>
+    <string name="pro_plan_lifetime_billing">一度のお支払い</string>
+    <string name="pro_plan_lifetime_price">$29.99</string>
+    <string name="pro_plan_lifetime_unit"> 買い切り</string>
+    <string name="pro_plan_lifetime_badge">一番人気</string>
+    <string name="pro_most_popular">大人気</string>
+    <string name="pro_select">選択</string>
+    <string name="btn_go_premium">今すぐプレミアムにする</string>
+    <string name="pro_fine_print">いつでも解約可能  •  隠れた費用なし</string>
+
+    <!-- Bookmarks Screen -->
+    <string name="bookmark_title">ブックマーク</string>
+    <string name="bookmark_search_hint">ブックマークを検索</string>
+    <string name="bookmark_on">保存日時</string>
+    <string name="bookmark_empty_title">ブックマークがありません</string>
+    <string name="bookmark_empty_subtitle">ブックマークした動画はここに表示されます</string>
+
+    <!-- Downloads screen -->
+    <string name="dl_tab_all">すべて (%d)</string>
+    <string name="dl_tab_video">動画 (%d)</string>
+    <string name="dl_tab_audio">音声 (%d)</string>
+    <string name="dl_tab_downloading">保存中 (%d)</string>
+    <string name="dl_storage_used">使用容量</string>
+    <string name="dl_storage_percent">19%% 使用中</string>
+    <string name="dl_pause_all">すべて一時停止</string>
+    <string name="dl_section_downloading">ダウンロード中 (%d)</string>
+    <string name="dl_section_downloaded">ダウンロード完了 (%d)</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">設定</string>
+    <string name="settings_download_location">保存先フォルダ</string>
+    <string name="settings_internal_storage">内部ストレージ</string>
+    <string name="settings_video_quality">動画画質</string>
+    <string name="settings_wifi_only">Wi-Fi時のみ保存</string>
+    <string name="settings_auto_download">自動ダウンロード</string>
+    <string name="settings_clear_cache">キャッシュを消去</string>
+    <string name="settings_rate_us">アプリを評価</string>
+    <string name="settings_privacy_policy">プライバシーポリシー</string>
+    <string name="settings_about_app">アプリ情報</string>
+    <string name="settings_cache_cleared">キャッシュを正常に削除しました！</string>
+
+    <!-- Help & Support Screen -->
+    <string name="help_title">ヘルプ＆サポート</string>
+    <string name="help_header_title">何かお困りですか？</string>
+    <string name="help_header_subtitle">よくある質問をご覧いただくか、サポートチームにお問い合わせください。</string>
+    <string name="help_search_placeholder">ヘルプを検索...</string>
+    <string name="help_faq_title">よくある質問</string>
+    <string name="help_faq_view_all">すべて見る</string>
+    <string name="help_contact_support_title">サポートへのお問い合わせ</string>
+    <string name="help_live_chat">ライブチャット</string>
+    <string name="help_live_chat_sub">チャットで相談</string>
+    <string name="help_email_us">メールを送る</string>
+    <string name="help_email_us_sub">support@videodownloader.com</string>
+    <string name="help_submit_ticket">チケット送信</string>
+    <string name="help_submit_ticket_sub">迅速なサポート</string>
+    <string name="help_help_center">ヘルプセンター</string>
+    <string name="help_help_center_sub">記事を見る</string>
+    <string name="help_still_need_help">まだ解決しませんか？</string>
+    <string name="help_still_need_help_sub">専任チームがいつでもお手伝いします。</string>
+    <string name="help_btn_contact_us">お問い合わせ</string>
+    <string name="help_24_7_title">24時間年中無休でサポート</string>
+    <string name="help_24_7_sub">ユーザー満足度が私たちの最優先事項です。</string>
+
+    <!-- FAQ Items -->
+    <string name="faq_q1">動画をダウンロードする方法は？</string>
+    <string name="faq_a1">1. 動画のリンクをコピーします。\n2. ホーム画面の検索バーにURLを貼り付けます。\n3. 「ダウンロード」をタップして形式を選択してください。</string>
+    <string name="faq_q2">保存したファイルはどこにありますか？</string>
+    <string name="faq_a2">アプリ内の「ダウンロード」タブおよび端末のストレージに保存されます。</string>
+    <string name="faq_q3">高画質HDで保存するには？</string>
+    <string name="faq_a3">形式選択画面で1080pや4Kを選択してください。</string>
+    <string name="faq_q4">ダウンロードが停止した場合は？</string>
+    <string name="faq_a4">再試行ボタンをタップしてください。</string>
+    <string name="faq_q5">個人データは安全ですか？</string>
+    <string name="faq_a5">はい、100%安全です。個人情報を収集することはありません。</string>
+
+    <!-- Privacy Policy Screen -->
+    <string name="privacy_title">プライバシーポリシー</string>
+    <string name="privacy_header_title">プライバシーを第一に保護します</string>
+    <string name="privacy_header_subtitle">安心してご利用いただけるよう、プライバシーの保護に努めています。</string>
+    <string name="privacy_contact_title">お問い合わせ</string>
+    <string name="privacy_contact_desc">ご不明な点は support@videodownloader.com までご連絡ください。</string>
+    <string name="privacy_last_updated">最終更新日: 2024年5月20日</string>
+
+    <string name="privacy_sec1_title">1. 収集する情報</string>
+    <string name="privacy_sec1_desc">個人を特定できる情報（氏名や電話番号など）は一切収集しません。</string>
+    <string name="privacy_sec2_title">2. 情報の利用目的</string>
+    <string name="privacy_sec2_desc">ダウンロード処理およびアプリの品質向上のためにのみ利用されます。</string>
+    <string name="privacy_sec3_title">3. データの安全性</string>
+    <string name="privacy_sec3_desc">安全な暗号化通信を利用し、ファイルは端末内に直接保存されます。</string>
+    <string name="privacy_sec4_title">4. 第三者サービス</string>
+    <string name="privacy_sec4_desc">公開メディアを取得するために各プラットフォームと連携します。</string>
+    <string name="privacy_sec5_title">5. ユーザーの権利</string>
+    <string name="privacy_sec5_desc">設定画面からいつでも履歴やキャッシュを削除できます。</string>
+    <string name="privacy_sec6_title">6. ポリシーの変更</string>
+    <string name="privacy_sec6_desc">本ポリシーは定期的に更新される場合があります。</string>
+
+    <!-- About App Screen -->
+    <string name="about_title">アプリについて</string>
+    <string name="about_app_name">動画ダウンローダー</string>
+    <string name="about_version_badge">バージョン 1.0.0</string>
+    <string name="about_tagline">あらゆるプラットフォームから素早く、簡単に、安全に動画を保存。</string>
+    <string name="about_feature_fast">高速ダウンロード</string>
+    <string name="about_feature_fast_sub">超高速で動画をダウンロード。</string>
+    <string name="about_feature_safe">安全・安心</string>
+    <string name="about_feature_safe_sub">100%安全なダウンロード。</string>
+    <string name="about_feature_hd">HD高画質</string>
+    <string name="about_feature_hd_sub">HDおよび4K動画に対応。</string>
+    <string name="about_feature_manage">簡単管理</string>
+    <string name="about_feature_manage_sub">ダウンロードしたファイルをスマートに整理。</string>
+    <string name="about_meta_version">アプリバージョン</string>
+    <string name="about_meta_version_val">1.0.0</string>
+    <string name="about_meta_release">リリース日</string>
+    <string name="about_meta_release_val">2026年8月24日</string>
+    <string name="about_meta_developer">開発者</string>
+    <string name="about_meta_developer_val">Smart Tools Studio</string>
+    <string name="about_meta_website">ウェブサイト</string>
+    <string name="about_meta_website_val">www.videodownloader.com</string>
+    <string name="about_footer_made_with">より良い体験のために愛 ❤️ を込めて</string>
+
+    <!-- Rate App Screen -->
+    <string name="rate_title">アプリを評価</string>
+    <string name="rate_hero_enjoying">アプリをお楽しみいただけていますか？</string>
+    <string name="rate_hero_sub">動画ダウンローダーをお気に入りいただけましたら、ぜひ評価をお願いします。</string>
+    <string name="rate_tap_to_rate">星をタップして評価</string>
+    <string name="rate_submit_btn">評価を送信</string>
+    <string name="rate_maybe_later_btn">後で</string>
+    <string name="rate_lbl_0">評価を選択してください</string>
+    <string name="rate_lbl_1">改善が必要</string>
+    <string name="rate_lbl_2">もう少し</string>
+    <string name="rate_lbl_3">良い</string>
+    <string name="rate_lbl_4">とても良い！</string>
+    <string name="rate_lbl_5">最高！最高のアプリ！ ⭐</string>
+
+    <!-- Share App Screen -->
+    <string name="share_title">アプリを共有</string>
+    <string name="share_hero_title">動画ダウンローダーを\n友達に教える</string>
+    <string name="share_hero_sub">友達にアプリを教えて、動画保存をサポートしよう！</string>
+    <string name="share_referral_title">あなたの招待コード</string>
+    <string name="share_referral_sub">友達がこのコードを利用できます。</string>
+    <string name="share_via_title">共有方法</string>
+    <string name="share_why_title">アプリを共有する理由</string>
+    <string name="share_reason_1_title">友達をサポート</string>
+    <string name="share_reason_1_sub">便利な動画ダウンローダーを友達に紹介。</string>
+    <string name="share_reason_2_title">特典を獲得</string>
+    <string name="share_reason_2_sub">友達がアプリを使うと素敵な特典が手に入ります。</string>
+    <string name="share_reason_3_title">安全・安心</string>
+    <string name="share_reason_3_sub">プライバシーを尊重した100%安全なアプリ。</string>
+    <string name="share_invite_title">もっと招待して、もっとお得に！</string>
+    <string name="share_invite_sub">友達を招待すればするほど、多くの特典がもらえます。</string>
+    <string name="share_btn_rewards">特典を\n見る ›</string>
+</resources>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ویڈیو ڈاؤنلوڈر</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">آل ان ون\nویڈیو ڈاؤنلوڈر</string>
+    <string name="onboarding_subtitle">کسی بھی پلیٹ فارم سے ویڈیوز، شارٹس، ریلز اور موسیقی ایک ہی جگہ ڈاؤنلوڈ کریں۔</string>
+    <string name="onboarding_1_title">آل ان ون\nویڈیو ڈاؤنلوڈر</string>
+    <string name="onboarding_1_subtitle">کسی بھی پلیٹ فارم سے ویڈیوز، شارٹس، ریلز اور موسیقی ایک ہی جگہ ڈاؤنلوڈ کریں۔</string>
+    <string name="onboarding_2_title">تیز اور آسان\nڈاؤنلوڈ</string>
+    <string name="onboarding_2_subtitle">سادہ اور ہموار تجربے کے ساتھ بجلی کی رفتار سے ڈاؤنلوڈ کریں۔</string>
+    <string name="onboarding_3_title">محفوظ، قابل اعتماد\nاور ذاتی</string>
+    <string name="onboarding_3_subtitle">آپ کے ڈاؤنلوڈز 100% محفوظ اور ذاتی ہیں۔ ہم آپ کی پرائیویسی کا احترام کرتے ہیں۔</string>
+    <string name="btn_next">اگلا   →</string>
+    <string name="btn_get_started">شروع کریں   →</string>
+
+    <!-- Language Screen -->
+    <string name="language_title">اپنی زبان منتخب کریں</string>
+    <string name="language_subtitle">جاری رکھنے کے لیے اپنی پسندیدہ زبان منتخب کریں</string>
+    <string name="btn_continue">جاری رکھیں</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome">خوش آمدید! 👋</string>
+    <string name="home_subtitle">کسی بھی پلیٹ فارم سے ویڈیوز جلدی اور آسانی سے ڈاؤنلوڈ کریں</string>
+    <string name="home_paste_title">ویڈیو لنک یہاں پیسٹ کریں</string>
+    <string name="home_url_placeholder">https://example.com/video/12345</string>
+    <string name="btn_download">ڈاؤنلوڈ</string>
+    <string name="home_quick_actions">فوری اعمال</string>
+
+    <!-- Download Flow Sheets -->
+    <string name="flow_choose_type_title">ڈاؤنلوڈ کی قسم منتخب کریں</string>
+    <string name="flow_choose_type_subtitle">منتخب کریں کہ آپ کیا ڈاؤنلوڈ کرنا چاہتے ہیں۔</string>
+    <string name="flow_option_video_title">ویڈیو</string>
+    <string name="flow_option_video_subtitle">صرف ویڈیو ڈاؤنلوڈ کریں</string>
+    <string name="flow_option_audio_title">آڈیو</string>
+    <string name="flow_option_audio_subtitle">صرف آڈیو ڈاؤنلوڈ کریں</string>
+    <string name="btn_cancel">منسوخ کریں</string>
+
+    <string name="flow_downloading_video">ویڈیو ڈاؤنلوڈ ہو رہی ہے...</string>
+    <string name="flow_downloading_audio">آڈیو ڈاؤنلوڈ ہو رہی ہے...</string>
+    <string name="flow_just_video">صرف ویڈیو</string>
+    <string name="flow_just_audio">صرف آڈیو</string>
+    <string name="flow_label_filename">فائل کا نام</string>
+    <string name="flow_label_size">سائز</string>
+    <string name="flow_label_time_remaining">باقی وقت</string>
+    <string name="flow_cancel_download">ڈاؤنلوڈ منسوخ کریں</string>
+
+    <string name="flow_complete_title">ڈاؤنلوڈ مکمل ہو گیا!</string>
+    <string name="flow_view_in_downloads">ڈاؤنلوڈز میں دیکھیں</string>
+    <string name="flow_close">بند کریں</string>
+    <string name="home_bookmarks">بک مارکس</string>
+    <string name="home_bookmarks_sub">محفوظ لنکس دیکھیں</string>
+    <string name="home_share_app">ایپ شیئر کریں</string>
+    <string name="home_share_app_sub">دوستوں کے ساتھ شیئر کریں</string>
+    <string name="home_recent_downloads">حالیہ ڈاؤنلوڈز</string>
+    <string name="home_view_all">سب دیکھیں</string>
+    <string name="home_ad_label">اشتہار</string>
+    <string name="home_ad_placeholder">آپ کا اشتہار یہاں</string>
+    <string name="pro_btn_label">پرو</string>
+
+    <!-- Bottom Nav -->
+    <string name="nav_home">ہوم</string>
+    <string name="nav_downloads">ڈاؤنلوڈز</string>
+    <string name="nav_history">تاریخ</string>
+    <string name="nav_bookmarks">بک مارکس</string>
+    <string name="nav_settings">ترتیبات</string>
+
+    <!-- Sidebar -->
+    <string name="sidebar_app_name">ویڈیو ڈاؤنلوڈر</string>
+    <string name="sidebar_premium_badge">پریمیم</string>
+    <string name="sidebar_home">ہوم</string>
+    <string name="sidebar_downloads">ڈاؤنلوڈز</string>
+    <string name="sidebar_history">تاریخ</string>
+    <string name="sidebar_share_app">ایپ شیئر کریں</string>
+    <string name="sidebar_settings">ترتیبات</string>
+    <string name="sidebar_dark_mode">ڈارک موڈ</string>
+    <string name="sidebar_rate_us">ہمیں ریٹ کریں</string>
+    <string name="sidebar_help">مدد اور سپورٹ</string>
+    <string name="sidebar_privacy">رازداری کی پالیسی</string>
+    <string name="sidebar_terms">شرائط و ضوابط</string>
+    <string name="sidebar_about">ایپ کے بارے میں</string>
+    <string name="sidebar_logout">لاگ آؤٹ</string>
+    <string name="sidebar_language">زبان</string>
+
+    <!-- Pro Screen -->
+    <string name="pro_title">پریمیم لیں</string>
+    <string name="pro_badge">پرو</string>
+    <string name="pro_subtitle">تمام فیچرز کھولیں اور تیز، اشتہار سے پاک تجربہ پائیں</string>
+    <string name="pro_benefits_title">پریمیم فوائد</string>
+    <string name="pro_benefit_no_ads">کوئی اشتہار نہیں</string>
+    <string name="pro_benefit_no_ads_sub">اشتہار سے پاک تجربہ پائیں</string>
+    <string name="pro_benefit_faster">2X تیز ڈاؤنلوڈ</string>
+    <string name="pro_benefit_faster_sub">زیادہ سے زیادہ رفتار سے ڈاؤنلوڈ کریں</string>
+    <string name="pro_benefit_hd">الٹرا ایچ ڈی ڈاؤنلوڈ</string>
+    <string name="pro_benefit_hd_sub">4K اعلیٰ معیار میں ڈاؤنلوڈ کریں</string>
+    <string name="pro_benefit_unlimited">لامحدود ڈاؤنلوڈ</string>
+    <string name="pro_benefit_unlimited_sub">جتنا چاہیں ڈاؤنلوڈ کریں</string>
+    <string name="pro_plan_title">اپنا پلان منتخب کریں</string>
+    <string name="pro_secure_payments">محفوظ ادائیگی</string>
+    <string name="pro_plan_monthly">ماہانہ</string>
+    <string name="pro_plan_monthly_billing">ماہانہ بل</string>
+    <string name="pro_plan_monthly_price">$2.99</string>
+    <string name="pro_plan_monthly_unit">/ماہ</string>
+    <string name="pro_plan_yearly">سالانہ</string>
+    <string name="pro_plan_yearly_billing">سالانہ بل</string>
+    <string name="pro_plan_yearly_price">$14.99</string>
+    <string name="pro_plan_yearly_unit">/سال</string>
+    <string name="pro_plan_yearly_badge">58% بچائیں</string>
+    <string name="pro_plan_lifetime">عمر بھر</string>
+    <string name="pro_plan_lifetime_billing">ایک بار ادائیگی</string>
+    <string name="pro_plan_lifetime_price">$29.99</string>
+    <string name="pro_plan_lifetime_unit"> ایک بار</string>
+    <string name="pro_plan_lifetime_badge">بہترین قیمت</string>
+    <string name="pro_most_popular">سب سے مقبول</string>
+    <string name="pro_select">منتخب کریں</string>
+    <string name="btn_go_premium">ابھی پریمیم لیں</string>
+    <string name="pro_fine_print">کسی بھی وقت منسوخ کریں  •  کوئی چھپی ہوئی فیس نہیں</string>
+
+    <!-- Bookmarks Screen -->
+    <string name="bookmark_title">بک مارکس</string>
+    <string name="bookmark_search_hint">بک مارکس تلاش کریں</string>
+    <string name="bookmark_on">بک مارک کیا گیا</string>
+    <string name="bookmark_empty_title">ابھی تک کوئی بک مارک نہیں ہے</string>
+    <string name="bookmark_empty_subtitle">جو ویڈیوز آپ بک مارک کریں گے وہ یہاں نظر آئیں گی</string>
+
+    <!-- Downloads screen -->
+    <string name="dl_tab_all">سب (%d)</string>
+    <string name="dl_tab_video">ویڈیو (%d)</string>
+    <string name="dl_tab_audio">آڈیو (%d)</string>
+    <string name="dl_tab_downloading">ڈاؤنلوڈ ہو رہا ہے (%d)</string>
+    <string name="dl_storage_used">استعمال شدہ اسٹوریج</string>
+    <string name="dl_storage_percent">19%% استعمال شدہ</string>
+    <string name="dl_pause_all">سب کو روکیں</string>
+    <string name="dl_section_downloading">ڈاؤنلوڈ ہو رہا ہے (%d)</string>
+    <string name="dl_section_downloaded">ڈاؤنلوڈ ہو چکا (%d)</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">ترتیبات</string>
+    <string name="settings_download_location">ڈاؤنلوڈ کا مقام</string>
+    <string name="settings_internal_storage">اندرونی اسٹوریج</string>
+    <string name="settings_video_quality">ویڈیو کا معیار</string>
+    <string name="settings_wifi_only">صرف Wi-Fi پر ڈاؤنلوڈ کریں</string>
+    <string name="settings_auto_download">خودکار ڈاؤنلوڈ</string>
+    <string name="settings_clear_cache">کیشے صاف کریں</string>
+    <string name="settings_rate_us">ہمیں ریٹ کریں</string>
+    <string name="settings_privacy_policy">رازداری کی پالیسی</string>
+    <string name="settings_about_app">ایپ کے بارے میں</string>
+    <string name="settings_cache_cleared">کیشے کامیابی سے صاف ہو گیا!</string>
+
+    <!-- Help & Support Screen -->
+    <string name="help_title">مدد اور سپورٹ</string>
+    <string name="help_header_title">ہم آپ کی کیا مدد کر سکتے ہیں؟</string>
+    <string name="help_header_subtitle">عام سوالات کے جوابات تلاش کریں یا ہماری سپورٹ ٹیم سے رابطہ کریں۔</string>
+    <string name="help_search_placeholder">مدد تلاش کریں...</string>
+    <string name="help_faq_title">اکثر پوچھے گئے سوالات</string>
+    <string name="help_faq_view_all">سب دیکھیں</string>
+    <string name="help_contact_support_title">سپورٹ سے رابطہ کریں</string>
+    <string name="help_live_chat">لائیو چیٹ</string>
+    <string name="help_live_chat_sub">ہم سے چیٹ کریں</string>
+    <string name="help_email_us">ہمیں ای میل کریں</string>
+    <string name="help_email_us_sub">support@videodownloader.com</string>
+    <string name="help_submit_ticket">ٹکٹ جمع کروائیں</string>
+    <string name="help_submit_ticket_sub">فوری مدد حاصل کریں</string>
+    <string name="help_help_center">ہیلپ سینٹر</string>
+    <string name="help_help_center_sub">مضامین دیکھیں</string>
+    <string name="help_still_need_help">ابھی بھی مدد کی ضرورت ہے؟</string>
+    <string name="help_still_need_help_sub">ہماری سپورٹ ٹیم آپ کی مدد کے لیے تیار ہے۔</string>
+    <string name="help_btn_contact_us">ہم سے رابطہ کریں</string>
+    <string name="help_24_7_title">ہم 24/7 آپ کی مدد کے لیے حاضر ہیں</string>
+    <string name="help_24_7_sub">آپ کا اطمینان ہماری ترجیح ہے۔</string>
+
+    <!-- FAQ Items -->
+    <string name="faq_q1">میں ویڈیو کیسے ڈاؤنلوڈ کروں؟</string>
+    <string name="faq_a1">1. کسی بھی سوشل یا ویڈیو پلیٹ فارم سے ویڈیو لنک کاپی کریں۔\n2. ایپ کھولیں اور ہوم اسکرین پر سرچ باکس میں یو آر ایل پیسٹ کریں۔\n3. \'ڈاؤنلوڈ\' دبائیں، مطلوبہ فارمیٹ منتخب کریں اور ڈاؤنلوڈ شروع ہو جائے گا۔</string>
+    <string name="faq_q2">میرے ڈاؤنلوڈز کہاں ملیں گے؟</string>
+    <string name="faq_a2">تمام ڈاؤنلوڈ شدہ فائلیں ایپ میں \'ڈاؤنلوڈز\' ٹیب میں نظر آئیں گی اور آپ کے فون میں بھی محفوظ ہوں گی۔</string>
+    <string name="faq_q3">ایچ ڈی کوالٹی میں کیسے ڈاؤنلوڈ کریں؟</string>
+    <string name="faq_a3">فارمیٹ سلیکشن مینو میں 1080p یا 4K آپشن منتخب کریں۔</string>
+    <string name="faq_q4">ڈاؤنلوڈ کیوں رک گیا یا فیل ہو گیا؟</string>
+    <string name="faq_a4">انٹرنیٹ کنکشن خراب ہونے کی صورت میں دوبارہ کوشش کا بٹن دبائیں۔</string>
+    <string name="faq_q5">کیا میرا ڈیٹا محفوظ ہے؟</string>
+    <string name="faq_a5">جی ہاں، 100% محفوظ ہے۔ ہم آپ کی کوئی ذاتی معلومات محفوظ نہیں کرتے۔</string>
+
+    <!-- Privacy Policy Screen -->
+    <string name="privacy_title">رازداری کی پالیسی</string>
+    <string name="privacy_header_title">آپ کی رازداری ہماری اولین ترجیح ہے</string>
+    <string name="privacy_header_subtitle">ہم آپ کی رازداری کے تحفظ اور ایپ کے محفوظ استعمال کو یقینی بنانے کے لیے پرعزم ہیں۔</string>
+    <string name="privacy_contact_title">ہم سے رابطہ کریں</string>
+    <string name="privacy_contact_desc">کسی بھی سوال کی صورت میں support@videodownloader.com پر رابطہ کریں۔</string>
+    <string name="privacy_last_updated">آخری اپ ڈیٹ: 20 مئی 2024</string>
+
+    <string name="privacy_sec1_title">1. جو معلومات ہم اکٹھا کرتے ہیں</string>
+    <string name="privacy_sec1_desc">ہم کوئی ذاتی شناختی معلومات جیسے نام یا فون نمبر اکٹھا نہیں کرتے۔</string>
+    <string name="privacy_sec2_title">2. معلومات کا استعمال</string>
+    <string name="privacy_sec2_desc">ڈیٹا صرف ویڈیو ڈاؤنلوڈ کی سہولت اور ایپ کی کارکردگی بہتر بنانے کے لیے استعمال ہوتا ہے۔</string>
+    <string name="privacy_sec3_title">3. ڈیٹا کی حفاظت</string>
+    <string name="privacy_sec3_desc">تمام رابطے محفوظ انکرپشن کے ساتھ ہوتے ہیں اور فائلیں براہ راست آپ کے ڈیوائس پر محفوظ ہوتی ہیں۔</string>
+    <string name="privacy_sec4_title">4. تھرڈ پارٹی سروسز</string>
+    <string name="privacy_sec4_desc">ایپ عوامی مواد حاصل کرنے کے لیے متعلقہ پلیٹ فارمز سے رابطہ کرتی ہے۔</string>
+    <string name="privacy_sec5_title">5. آپ کے اختیارات</string>
+    <string name="privacy_sec5_desc">آپ کسی بھی وقت سیٹنگز سے ہسٹری اور کیشے ڈیلیٹ کر سکتے ہیں۔</string>
+    <string name="privacy_sec6_title">6. پالیسی میں تبدیلیاں</string>
+    <string name="privacy_sec6_desc">ہم وقتاً فوقتاً پالیسی کو اپ ڈیٹ کر سکتے ہیں۔</string>
+
+    <!-- About App Screen -->
+    <string name="about_title">ایپ کے بارے میں</string>
+    <string name="about_app_name">ویڈیو ڈاؤنلوڈر</string>
+    <string name="about_version_badge">ورژن 1.0.0</string>
+    <string name="about_tagline">کسی بھی پلیٹ فارم سے ویڈیوز تیزی، آسانی اور حفاظت سے ڈاؤنلوڈ کریں۔</string>
+    <string name="about_feature_fast">تیز رفتار ڈاؤنلوڈ</string>
+    <string name="about_feature_fast_sub">تیز رفتار کے ساتھ ویڈیوز ڈاؤنلوڈ کریں۔</string>
+    <string name="about_feature_safe">محفوظ اور قابل اعتماد</string>
+    <string name="about_feature_safe_sub">100% محفوظ ڈاؤنلوڈز۔</string>
+    <string name="about_feature_hd">ایچ ڈی کوالٹی</string>
+    <string name="about_feature_hd_sub">ایچ ڈی اور 4K ویڈیوز کی سپورٹ۔</string>
+    <string name="about_feature_manage">آسان انتظام</string>
+    <string name="about_feature_manage_sub">اپنے ڈاؤنلوڈز کو آسانی سے منظم کریں۔</string>
+    <string name="about_meta_version">ایپ ورژن</string>
+    <string name="about_meta_version_val">1.0.0</string>
+    <string name="about_meta_release">تاریخ اجراء</string>
+    <string name="about_meta_release_val">24 اگست 2026</string>
+    <string name="about_meta_developer">ڈیولپر</string>
+    <string name="about_meta_developer_val">Smart Tools Studio</string>
+    <string name="about_meta_website">ویب سائٹ</string>
+    <string name="about_meta_website_val">www.videodownloader.com</string>
+    <string name="about_footer_made_with">بہتر تجربے کے لیے محبت ❤️ کے ساتھ بنایا گیا</string>
+
+    <!-- Rate App Screen -->
+    <string name="rate_title">ہمیں ریٹ کریں</string>
+    <string name="rate_hero_enjoying">کیا آپ ایپ سے لطف اندوز ہو رہے ہیں؟</string>
+    <string name="rate_hero_sub">اگر آپ کو ویڈیو ڈاؤنلوڈر پسند ہے تو براہ کرم ہمیں ریٹ کریں۔</string>
+    <string name="rate_tap_to_rate">ریٹ کرنے کے لیے دبائیں</string>
+    <string name="rate_submit_btn">ریٹنگ جمع کروائیں</string>
+    <string name="rate_maybe_later_btn">شاید بعد میں</string>
+    <string name="rate_lbl_0">اپنی ریٹنگ منتخب کریں</string>
+    <string name="rate_lbl_1">بہتری کی ضرورت ہے</string>
+    <string name="rate_lbl_2">بہتر ہو سکتا ہے</string>
+    <string name="rate_lbl_3">اچھا تجربہ</string>
+    <string name="rate_lbl_4">بہت پسند آیا!</string>
+    <string name="rate_lbl_5">شاندار! بہترین ایپ! ⭐</string>
+
+    <!-- Share App Screen -->
+    <string name="share_title">ایپ شیئر کریں</string>
+    <string name="share_hero_title">ویڈیو ڈاؤنلوڈر\nشیئر کریں</string>
+    <string name="share_hero_sub">اپنے دوستوں کے ساتھ ایپ شیئر کریں اور ویڈیو ڈاؤنلوڈ میں ان کی مدد کریں!</string>
+    <string name="share_referral_title">آپ کا ریفرل کوڈ</string>
+    <string name="share_referral_sub">آپ کے دوست یہ کوڈ استعمال کر سکتے ہیں۔</string>
+    <string name="share_via_title">کے ذریعے شیئر کریں</string>
+    <string name="share_why_title">ایپ کیوں شیئر کریں؟</string>
+    <string name="share_reason_1_title">دوستوں کی مدد کریں</string>
+    <string name="share_reason_1_sub">دوستوں کو بہترین ویڈیو ڈاؤنلوڈر سے متعارف کروائیں۔</string>
+    <string name="share_reason_2_title">انعامات حاصل کریں</string>
+    <string name="share_reason_2_sub">دوستوں کے استعمال پر انعامات حاصل کریں۔</string>
+    <string name="share_reason_3_title">محفوظ اور قابل اعتماد</string>
+    <string name="share_reason_3_sub">100% محفوظ ایپ، پرائیویسی کا احترام۔</string>
+    <string name="share_invite_title">مزید مدعو کریں، مزید کمائیں!</string>
+    <string name="share_invite_sub">جتنے زیادہ دوست مدعو کریں گے، اتنے زیادہ انعامات ملیں گے۔</string>
+    <string name="share_btn_rewards">انعامات\ndیکھیں ›</string>
+</resources>
