@@ -15,7 +15,6 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.*
@@ -52,8 +51,7 @@ fun SidebarDrawer(
     isDarkMode: Boolean = false,
     onItemClick: (String) -> Unit = {},
     onDarkModeToggle: (Boolean) -> Unit = {},
-    onGoPremium: () -> Unit = {},
-    onLogOut: () -> Unit = {}
+    onGoPremium: () -> Unit = {}
 ) {
     val isDark = LocalIsDarkTheme.current
 
@@ -128,32 +126,7 @@ fun SidebarDrawer(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        // ── Log Out ───────────────────────────────────────────────────────
-        Divider(color = dividerClr, thickness = 1.dp)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(bg)
-                .clickable { onLogOut() }
-                .padding(horizontal = 20.dp, vertical = 18.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Logout,
-                contentDescription = null,
-                tint = AppColors.logoutRed,
-                modifier = Modifier.size(22.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = stringResource(R.string.sidebar_logout),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = AppColors.logoutRed
-            )
+            Spacer(modifier = Modifier.navigationBarsPadding().height(16.dp))
         }
     }
 }

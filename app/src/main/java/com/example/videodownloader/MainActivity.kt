@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.videodownloader.ui.theme.VIDEODOWNLOADERTheme
 
@@ -50,8 +51,8 @@ class MainActivity : ComponentActivity() {
             ) {
                 VIDEODOWNLOADERTheme(darkTheme = isDark, dynamicColor = false) {
 
-                    var screen by remember { mutableStateOf("splash") }
-                    var previousScreen by remember { mutableStateOf("home") }
+                    var screen by rememberSaveable { mutableStateOf("splash") }
+                    var previousScreen by rememberSaveable { mutableStateOf("home") }
 
                     fun navigateTo(destination: String) {
                         previousScreen = screen
@@ -86,7 +87,6 @@ class MainActivity : ComponentActivity() {
                         themeViewModel   = themeViewModel,
                         onMenuClick      = {},
                         onViewAll        = { navigateTo("downloads") },
-                        onProClick       = { navigateTo("pro") },
                         onBookmarkClick  = { navigateTo("bookmark") },
                         onLanguageClick  = { navigateTo("language") },
                         onDownloadsClick = { navigateTo("downloads") },
@@ -109,7 +109,6 @@ class MainActivity : ComponentActivity() {
                         themeViewModel   = themeViewModel,
                         onTabSelected    = { if (it == 0) screen = "home" },
                         onHomeClick      = { screen = "home" },
-                        onProClick       = { navigateTo("pro") },
                         onLanguageClick  = { navigateTo("language") },
                         onSettingsClick  = { navigateTo("settings") },
                         onRateClick      = { navigateTo("rate") },

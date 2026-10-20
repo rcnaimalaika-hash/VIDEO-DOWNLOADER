@@ -57,6 +57,9 @@ private val languages = listOf(
 @Composable
 fun LanguageScreen(onContinue: (Language) -> Unit = {}) {
     val context = LocalContext.current
+    val configuration = androidx.compose.ui.platform.LocalConfiguration.current
+    val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
+
     val currentSaved = remember { LocaleHelper.getSavedLanguage(context) }
     var selected by remember {
         mutableStateOf(languages.find { it.name.equals(currentSaved, ignoreCase = true) } ?: languages.first())
@@ -70,30 +73,30 @@ fun LanguageScreen(onContinue: (Language) -> Unit = {}) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(if (isLandscape) 8.dp else 36.dp))
 
         // ── Title ─────────────────────────────────────────────────────────
         Text(
             text = stringResource(R.string.language_title),
-            fontSize = 22.sp,
+            fontSize = if (isLandscape) 18.sp else 22.sp,
             fontWeight = FontWeight.Bold,
             color = AppColors.textPrimary,
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         // ── Subtitle ──────────────────────────────────────────────────────
         Text(
             text = stringResource(R.string.language_subtitle),
-            fontSize = 14.sp,
+            fontSize = if (isLandscape) 12.sp else 14.sp,
             fontWeight = FontWeight.Normal,
             color = AppColors.textSecondary,
             textAlign = TextAlign.Center,
-            lineHeight = 20.sp
+            lineHeight = if (isLandscape) 16.sp else 20.sp
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(if (isLandscape) 8.dp else 20.dp))
 
         // ── Language list ─────────────────────────────────────────────────
         LazyColumn(
@@ -101,7 +104,7 @@ fun LanguageScreen(onContinue: (Language) -> Unit = {}) {
                 .weight(1f)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(bottom = 12.dp)
         ) {
             items(languages) { lang ->
@@ -119,12 +122,12 @@ fun LanguageScreen(onContinue: (Language) -> Unit = {}) {
                 .fillMaxWidth()
                 .background(AppColors.surface)
                 .border(width = 0.8.dp, color = AppColors.divider)
-                .padding(horizontal = 16.dp, vertical = 14.dp)
+                .padding(horizontal = 16.dp, vertical = if (isLandscape) 8.dp else 14.dp)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(54.dp)
+                    .height(if (isLandscape) 46.dp else 54.dp)
                     .clip(RoundedCornerShape(14.dp))
                     .background(AppColors.blue)
                     .clickable { onContinue(selected) },

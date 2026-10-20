@@ -1,5 +1,6 @@
 package com.example.videodownloader
 
+import android.content.res.Configuration
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -8,8 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -20,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -78,128 +82,244 @@ private val OnboardingGradient = Brush.verticalGradient(
 fun OnboardingScreen(
     onGetStarted: () -> Unit = {}
 ) {
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     val pagerState = rememberPagerState(initialPage = 0, pageCount = { onboardingPages.size })
     val coroutineScope = rememberCoroutineScope()
+    val isLastPage = pagerState.currentPage == onboardingPages.size - 1
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(brush = OnboardingGradient)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .systemBarsPadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Pager for swipeable pages
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            ) { pageIndex ->
-                val pageData = onboardingPages[pageIndex]
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.height(28.dp))
-
-                    // Illustration Image
-                    Image(
-                        painter = painterResource(id = pageData.illustrationRes),
-                        contentDescription = stringResource(pageData.titleRes),
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .fillMaxWidth(0.85f)
-                            .widthIn(max = 340.dp)
-                            .aspectRatio(1f)
-                    )
-
-                    Spacer(modifier = Modifier.height(28.dp))
-
-                    // Title
-                    Text(
-                        text = stringResource(pageData.titleRes),
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        lineHeight = 36.sp,
-                        modifier = Modifier.widthIn(max = 320.dp)
-                    )
-
-                    Spacer(modifier = Modifier.height(14.dp))
-
-                    // Subtitle
-                    Text(
-                        text = stringResource(pageData.subtitleRes),
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color(0xDDFFFFFF),
-                        textAlign = TextAlign.Center,
-                        lineHeight = 22.sp,
-                        modifier = Modifier.widthIn(max = 310.dp)
-                    )
-                }
-            }
-
-            // Page Indicator Dots
+        if (isLandscape) {
+            // ── Landscape: Horizontal arrangement with scrollable content ──
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .systemBarsPadding()
+                    .padding(horizontal = 24.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                repeat(onboardingPages.size) { index ->
-                    PageDot(active = pagerState.currentPage == index)
+                // Pager takes main left portion
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                ) { pageIndex ->
+                    val pageData = onboardingPages[pageIndex]
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = pageData.illustrationRes),
+                            contentDescription = stringResource(pageData.titleRes),
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .size(140.dp)
+                        )
+
+                        Spacer(modifier = Modifier.width(24.dp))
+
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = stringResource(pageData.titleRes),
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                lineHeight = 28.sp
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(
+                                text = stringResource(pageData.subtitleRes),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = Color(0xDDFFFFFF),
+                                lineHeight = 20.sp
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                // Right controls: Page dots + Button
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        repeat(onboardingPages.size) { index ->
+                            PageDot(active = pagerState.currentPage == index)
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Button(
+                        onClick = {
+                            if (isLastPage) {
+                                onGetStarted()
+                            } else {
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                }
+                            }
+                        },
+                        modifier = Modifier
+                            .height(50.dp)
+                            .widthIn(min = 140.dp),
+                        shape = RoundedCornerShape(999.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            contentColor = Color(0xFF1D4ED8)
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp),
+                        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
+                    ) {
+                        Text(
+                            text = stringResource(
+                                if (isLastPage) R.string.btn_get_started else R.string.btn_next
+                            ),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF1D4ED8)
+                        )
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(34.dp))
-
-            // Action Button (Next or Get Started)
-            val isLastPage = pagerState.currentPage == onboardingPages.size - 1
-            Box(
+        } else {
+            // ── Portrait: Vertical arrangement with responsive sizes and scroll safety ──
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 28.dp)
+                    .fillMaxSize()
+                    .systemBarsPadding(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(
-                    onClick = {
-                        if (isLastPage) {
-                            onGetStarted()
-                        } else {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                            }
-                        }
-                    },
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                ) { pageIndex ->
+                    val pageData = onboardingPages[pageIndex]
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Image(
+                            painter = painterResource(id = pageData.illustrationRes),
+                            contentDescription = stringResource(pageData.titleRes),
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .sizeIn(maxWidth = 280.dp, maxHeight = 280.dp)
+                                .fillMaxWidth(0.75f)
+                                .aspectRatio(1f)
+                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        Text(
+                            text = stringResource(pageData.titleRes),
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            lineHeight = 34.sp,
+                            modifier = Modifier.widthIn(max = 320.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Text(
+                            text = stringResource(pageData.subtitleRes),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color(0xDDFFFFFF),
+                            textAlign = TextAlign.Center,
+                            lineHeight = 22.sp,
+                            modifier = Modifier.widthIn(max = 310.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+
+                // Page Indicator Dots
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    repeat(onboardingPages.size) { index ->
+                        PageDot(active = pagerState.currentPage == index)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(28.dp))
+
+                // Action Button
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(58.dp),
-                    shape = RoundedCornerShape(999.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color(0xFF1D4ED8)
-                    ),
-                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp),
-                    contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+                        .padding(horizontal = 28.dp)
                 ) {
-                    Text(
-                        text = stringResource(
-                            if (isLastPage) R.string.btn_get_started else R.string.btn_next
+                    Button(
+                        onClick = {
+                            if (isLastPage) {
+                                onGetStarted()
+                            } else {
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                }
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        shape = RoundedCornerShape(999.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            contentColor = Color(0xFF1D4ED8)
                         ),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1D4ED8),
-                        lineHeight = 28.sp
-                    )
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp),
+                        contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+                    ) {
+                        Text(
+                            text = stringResource(
+                                if (isLastPage) R.string.btn_get_started else R.string.btn_next
+                            ),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF1D4ED8),
+                            lineHeight = 28.sp
+                        )
+                    }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(28.dp))
+            }
         }
     }
 }
@@ -241,100 +361,199 @@ private fun OnboardingSinglePageView(
     pageData: OnboardingPageData,
     onButtonClick: () -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(brush = OnboardingGradient)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .systemBarsPadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(28.dp))
-
-            // Illustration
-            Image(
-                painter = painterResource(id = pageData.illustrationRes),
-                contentDescription = stringResource(pageData.titleRes),
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxWidth(0.85f)
-                    .widthIn(max = 340.dp)
-                    .aspectRatio(1f)
-            )
-
-            Spacer(modifier = Modifier.height(28.dp))
-
-            // Title
-            Text(
-                text = stringResource(pageData.titleRes),
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                lineHeight = 36.sp,
-                modifier = Modifier.widthIn(max = 320.dp)
-            )
-
-            Spacer(modifier = Modifier.height(14.dp))
-
-            // Subtitle
-            Text(
-                text = stringResource(pageData.subtitleRes),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color(0xDDFFFFFF),
-                textAlign = TextAlign.Center,
-                lineHeight = 22.sp,
-                modifier = Modifier.widthIn(max = 310.dp)
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            // Page Indicator
+        if (isLandscape) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .systemBarsPadding()
+                    .padding(horizontal = 24.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                repeat(3) { i ->
-                    PageDot(active = (i == pageIndex))
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = pageData.illustrationRes),
+                        contentDescription = stringResource(pageData.titleRes),
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(140.dp)
+                    )
+
+                    Spacer(modifier = Modifier.width(24.dp))
+
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(pageData.titleRes),
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            lineHeight = 28.sp
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            text = stringResource(pageData.subtitleRes),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color(0xDDFFFFFF),
+                            lineHeight = 20.sp
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        repeat(3) { i ->
+                            PageDot(active = (i == pageIndex))
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Button(
+                        onClick = onButtonClick,
+                        modifier = Modifier
+                            .height(50.dp)
+                            .widthIn(min = 140.dp),
+                        shape = RoundedCornerShape(999.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            contentColor = Color(0xFF1D4ED8)
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp),
+                        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
+                    ) {
+                        Text(
+                            text = stringResource(pageData.buttonTextRes),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF1D4ED8)
+                        )
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(34.dp))
-
-            // Action Button
-            Box(
+        } else {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 28.dp)
+                    .fillMaxSize()
+                    .systemBarsPadding(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(
-                    onClick = onButtonClick,
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Image(
+                        painter = painterResource(id = pageData.illustrationRes),
+                        contentDescription = stringResource(pageData.titleRes),
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .sizeIn(maxWidth = 280.dp, maxHeight = 280.dp)
+                            .fillMaxWidth(0.75f)
+                            .aspectRatio(1f)
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Text(
+                        text = stringResource(pageData.titleRes),
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        lineHeight = 34.sp,
+                        modifier = Modifier.widthIn(max = 320.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        text = stringResource(pageData.subtitleRes),
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = Color(0xDDFFFFFF),
+                        textAlign = TextAlign.Center,
+                        lineHeight = 22.sp,
+                        modifier = Modifier.widthIn(max = 310.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    repeat(3) { i ->
+                        PageDot(active = (i == pageIndex))
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(28.dp))
+
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(58.dp),
-                    shape = RoundedCornerShape(999.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color(0xFF1D4ED8)
-                    ),
-                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp),
-                    contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+                        .padding(horizontal = 28.dp)
                 ) {
-                    Text(
-                        text = stringResource(pageData.buttonTextRes),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1D4ED8),
-                        lineHeight = 28.sp
-                    )
+                    Button(
+                        onClick = onButtonClick,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        shape = RoundedCornerShape(999.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            contentColor = Color(0xFF1D4ED8)
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp),
+                        contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+                    ) {
+                        Text(
+                            text = stringResource(pageData.buttonTextRes),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF1D4ED8),
+                            lineHeight = 28.sp
+                        )
+                    }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(28.dp))
+            }
         }
     }
 }
@@ -374,16 +593,10 @@ fun OnboardingScreenOnePreview() {
     OnboardingScreenOne()
 }
 
-@Preview(showBackground = true, showSystemUi = true, device = "spec:width=390dp,height=844dp")
+@Preview(showBackground = true, showSystemUi = true, device = "spec:width=844dp,height=390dp")
 @Composable
-fun OnboardingScreenTwoPreview() {
-    OnboardingScreenTwo()
-}
-
-@Preview(showBackground = true, showSystemUi = true, device = "spec:width=390dp,height=844dp")
-@Composable
-fun OnboardingScreenThreePreview() {
-    OnboardingScreenThree()
+fun OnboardingLandscapePreview() {
+    OnboardingScreen()
 }
 
 @Preview(showBackground = true, showSystemUi = true, device = "spec:width=390dp,height=844dp")
@@ -391,3 +604,4 @@ fun OnboardingScreenThreePreview() {
 fun OnboardingPagerPreview() {
     OnboardingScreen()
 }
+

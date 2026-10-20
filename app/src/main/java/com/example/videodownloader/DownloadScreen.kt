@@ -171,7 +171,6 @@ fun DownloadScreen(
     onSettingsClick: () -> Unit = {},
     onRateClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
-    onProClick: () -> Unit = {},
     onHelpClick: () -> Unit = {},
     onPrivacyClick: () -> Unit = {},
     onAboutClick: () -> Unit = {}
@@ -229,11 +228,7 @@ fun DownloadScreen(
                     }
                 },
                 onDarkModeToggle = { themeViewModel?.setDarkMode(it) },
-                onGoPremium = {
-                    scope.launch { drawerState.close() }
-                    onProClick()
-                },
-                onLogOut = { scope.launch { drawerState.close() } }
+                onGoPremium = { scope.launch { drawerState.close() } }
             )
         },
         scrimColor = Color(0x99000000)
@@ -256,7 +251,7 @@ fun DownloadScreen(
                 Column(modifier = Modifier.fillMaxWidth().background(AppColors.surface)) {
                     Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
 
-                    // Top Bar with 3-bar Hamburger Icon, Title, and Pro Button
+                    // Top Bar with 3-bar Hamburger Icon & Title
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -278,25 +273,6 @@ fun DownloadScreen(
                             fontWeight = FontWeight.Bold,
                             color = AppColors.textPrimary
                         )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(20.dp))
-                                .background(AppColors.blue.copy(alpha = 0.12f))
-                                .clickable { onProClick() }
-                                .padding(horizontal = 12.dp, vertical = 6.dp)
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("👑", fontSize = 13.sp)
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    stringResource(R.string.pro_btn_label),
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = AppColors.blue
-                                )
-                            }
-                        }
                     }
 
                     // 3 Filter Bars / Tabs (All / Video / Audio)

@@ -51,7 +51,6 @@ fun HomeScreen(
     onMenuClick: () -> Unit = {},
     onViewAll: () -> Unit = {},
     onTabSelected: (Int) -> Unit = {},
-    onProClick: () -> Unit = {},
     onBookmarkClick: () -> Unit = {},
     onLanguageClick: () -> Unit = {},
     onDownloadsClick: () -> Unit = {},
@@ -132,8 +131,7 @@ fun HomeScreen(
                     }
                 },
                 onDarkModeToggle = { themeViewModel.setDarkMode(it) },
-                onGoPremium = { scope.launch { drawerState.close() } },
-                onLogOut    = { scope.launch { drawerState.close() } }
+                onGoPremium = { scope.launch { drawerState.close() } }
             )
         },
         scrimColor = Color(0x99000000)
@@ -164,8 +162,7 @@ fun HomeScreen(
                             keyboardController?.hide()
                             focusManager.clearFocus(force = true)
                             scope.launch { drawerState.open() }
-                        },
-                        onProClick  = onProClick
+                        }
                     )
 
                     // ── Paste Link & Download Card ───────────────────────────
@@ -181,16 +178,7 @@ fun HomeScreen(
                         onDownload       = { viewModel.startDownload() }
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    // ── Ad Play Box (in place of supported platforms) ─────────
-                    AdPlayBox()
-
-                    Spacer(modifier = Modifier.height(14.dp))
-
-                    // ── Bottom Ad Banner Placeholder ──────────────────────────
-                    AdBannerPlaceholder()
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
 
                 // ── Download Flow Modal Sheets (Format Selection, Progress, Complete) ──
@@ -221,17 +209,20 @@ fun HomeScreen(
 // ---------------------------------------------------------------------------
 
 @Composable
-private fun HeaderBanner(onMenuClick: () -> Unit, onProClick: () -> Unit = {}) {
+private fun HeaderBanner(onMenuClick: () -> Unit) {
+    val configuration = androidx.compose.ui.platform.LocalConfiguration.current
+    val isLandscape = configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(220.dp)
+            .height(if (isLandscape) 160.dp else 220.dp)
             .background(Brush.verticalGradient(listOf(Color(0xFF1A6BFF), Color(0xFF1252CC))))
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(40.dp)
+                .height(if (isLandscape) 28.dp else 40.dp)
                 .align(Alignment.BottomCenter)
                 .background(
                     Brush.verticalGradient(listOf(Color.Transparent, AppColors.background)),
@@ -243,28 +234,11 @@ private fun HeaderBanner(onMenuClick: () -> Unit, onProClick: () -> Unit = {}) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .padding(horizontal = 16.dp, vertical = if (isLandscape) 4.dp else 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onMenuClick) {
                     Icon(Icons.Filled.Menu, null, tint = Color.White, modifier = Modifier.size(26.dp))
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0x33FFFFFF))
-                        .clickable { onProClick() }
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("👑", fontSize = 14.sp)
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            stringResource(R.string.pro_btn_label),
-                            fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White
-                        )
-                    }
                 }
             }
             Row(
@@ -276,19 +250,23 @@ private fun HeaderBanner(onMenuClick: () -> Unit, onProClick: () -> Unit = {}) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         stringResource(R.string.home_welcome),
-                        fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White
+                        fontSize = if (isLandscape) 18.sp else 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
-                    Spacer(modifier = Modifier.height(6.dp))
+                    Spacer(modifier = Modifier.height(if (isLandscape) 2.dp else 6.dp))
                     Text(
                         stringResource(R.string.home_subtitle),
-                        fontSize = 13.sp, color = Color(0xCCFFFFFF), lineHeight = 18.sp
+                        fontSize = if (isLandscape) 12.sp else 13.sp,
+                        color = Color(0xCCFFFFFF),
+                        lineHeight = if (isLandscape) 16.sp else 18.sp
                     )
                 }
                 Image(
                     painter = painterResource(id = R.drawable.welcome_screen_logo),
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(120.dp)
+                    modifier = Modifier.size(if (isLandscape) 80.dp else 120.dp)
                 )
             }
         }
@@ -430,172 +408,6 @@ private fun PasteLinkCard(
 }
 
 // ---------------------------------------------------------------------------
-// Ad Play Box (Video Ad Play Card)
-// ---------------------------------------------------------------------------
-
-@Composable
-private fun AdPlayBox(
-    onAdPlayClick: () -> Unit = {}
-) {
-    val isDark = AppColors.isDark
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(18.dp))
-            .background(AppColors.surface)
-            .border(1.dp, AppColors.cardBorder, RoundedCornerShape(18.dp))
-            .clickable { onAdPlayClick() }
-            .padding(14.dp)
-    ) {
-        Column {
-            // Header Row: "AD • SPONSORED" badge
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(6.dp))
-                        .background(if (isDark) Color(0xFF1E3A5F) else Color(0xFFE3F2FD))
-                        .padding(horizontal = 8.dp, vertical = 3.dp)
-                ) {
-                    Text(
-                        text = "AD • SPONSORED",
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = if (isDark) Color(0xFF64B5F6) else Color(0xFF1976D2)
-                    )
-                }
-                Text(
-                    text = "Video Ad",
-                    fontSize = 11.sp,
-                    color = AppColors.textSecondary
-                )
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            // Main Ad Video Box with Play Button
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(140.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(
-                        Brush.linearGradient(
-                            listOf(Color(0xFF1E293B), Color(0xFF0F172A))
-                        )
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    // Play Button Circle with subtle glow
-                    Box(
-                        modifier = Modifier
-                            .size(54.dp)
-                            .clip(CircleShape)
-                            .background(Color(0x332563EB))
-                            .padding(4.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(46.dp)
-                                .clip(CircleShape)
-                                .background(AppColors.blue),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.PlayArrow,
-                                contentDescription = "Play Ad",
-                                tint = Color.White,
-                                modifier = Modifier.size(28.dp)
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Tap to Play Video Ad",
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Bottom CTA row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Watch & Support",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AppColors.textPrimary
-                    )
-                    Text(
-                        text = "Watch short video ads to keep downloads fast and free",
-                        fontSize = 11.sp,
-                        color = AppColors.textSecondary,
-                        lineHeight = 15.sp
-                    )
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(AppColors.blue)
-                        .padding(horizontal = 14.dp, vertical = 8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Watch",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                }
-            }
-        }
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Bottom Ad Banner Placeholder
-// ---------------------------------------------------------------------------
-
-@Composable
-private fun AdBannerPlaceholder() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .height(75.dp)
-            .clip(RoundedCornerShape(14.dp))
-            .background(AppColors.surface2)
-            .border(1.dp, AppColors.cardBorder, RoundedCornerShape(14.dp)),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(stringResource(R.string.home_ad_label), fontSize = 11.sp, color = AppColors.textSecondary)
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(stringResource(R.string.home_ad_placeholder), fontSize = 13.sp, color = AppColors.textPrimary, fontWeight = FontWeight.SemiBold)
-        }
-    }
-}
-
-// ---------------------------------------------------------------------------
 // Preview
 // ---------------------------------------------------------------------------
 
@@ -604,4 +416,5 @@ private fun AdBannerPlaceholder() {
 fun HomeScreenPreview() {
     // Preview placeholder
 }
+
 
