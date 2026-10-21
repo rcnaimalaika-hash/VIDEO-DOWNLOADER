@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.videodownloader", appContext.packageName)
+        assertEquals("com.appssouls.video.downloader.app.hd.save", appContext.packageName)
     }
 }

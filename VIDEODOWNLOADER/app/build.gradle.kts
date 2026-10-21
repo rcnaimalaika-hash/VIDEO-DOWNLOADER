@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.videodownloader"
+        applicationId = "com.appssouls.video.downloader.app.hd.save"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
