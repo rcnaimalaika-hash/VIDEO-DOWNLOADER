@@ -31,17 +31,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+import com.example.videodownloader.ads.FullScreenNativeAdCard
 
 // ---------------------------------------------------------------------------
 // Onboarding Data Models & Definitions
 // ---------------------------------------------------------------------------
 
 data class OnboardingPageData(
-    val illustrationRes: Int,
-    val titleRes: Int,
-    val subtitleRes: Int,
-    val buttonTextRes: Int
+    val illustrationRes: Int = R.drawable.onboarding_illustration_1,
+    val titleRes: Int = R.string.onboarding_1_title,
+    val subtitleRes: Int = R.string.onboarding_1_subtitle,
+    val buttonTextRes: Int = R.string.btn_next,
+    val isNativeAd: Boolean = false
 )
 
 val onboardingPages = listOf(
@@ -56,6 +60,13 @@ val onboardingPages = listOf(
         titleRes = R.string.onboarding_2_title,
         subtitleRes = R.string.onboarding_2_subtitle,
         buttonTextRes = R.string.btn_next
+    ),
+    OnboardingPageData(
+        illustrationRes = R.drawable.onboarding_illustration_2,
+        titleRes = R.string.onboarding_2_title,
+        subtitleRes = R.string.onboarding_2_subtitle,
+        buttonTextRes = R.string.btn_next,
+        isNativeAd = true
     ),
     OnboardingPageData(
         illustrationRes = R.drawable.onboarding_illustration_3,
@@ -89,6 +100,23 @@ fun OnboardingScreen(
     val coroutineScope = rememberCoroutineScope()
     val isLastPage = pagerState.currentPage == onboardingPages.size - 1
 
+    var nativeAdLoaded by remember { mutableStateOf(false) }
+    var adCountdown by remember { mutableIntStateOf(5) }
+
+    val isCurrentPageNativeAd = onboardingPages.getOrNull(pagerState.currentPage)?.isNativeAd == true
+    val isAdLocked = isCurrentPageNativeAd && adCountdown > 0
+
+    // ── Active Native Ad Display Timer (5 seconds) ──
+    LaunchedEffect(pagerState.currentPage, nativeAdLoaded) {
+        if (isCurrentPageNativeAd && nativeAdLoaded) {
+            adCountdown = 5
+            while (adCountdown > 0) {
+                delay(1000)
+                adCountdown -= 1
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -106,50 +134,64 @@ fun OnboardingScreen(
                 // Pager takes main left portion
                 HorizontalPager(
                     state = pagerState,
+                    userScrollEnabled = !isAdLocked,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
                 ) { pageIndex ->
                     val pageData = onboardingPages[pageIndex]
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = pageData.illustrationRes),
-                            contentDescription = stringResource(pageData.titleRes),
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .size(140.dp)
+                    if (pageData.isNativeAd) {
+                        FullScreenNativeAdCard(
+                            onContinue = {
+                                if (!isAdLocked) {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(pageIndex + 1)
+                                    }
+                                }
+                            },
+                            onAdLoaded = { nativeAdLoaded = true }
                         )
-
-                        Spacer(modifier = Modifier.width(24.dp))
-
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            verticalArrangement = Arrangement.Center
+                    } else {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            Text(
-                                text = stringResource(pageData.titleRes),
-                                fontSize = 22.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                lineHeight = 28.sp
+                            Image(
+                                painter = painterResource(id = pageData.illustrationRes),
+                                contentDescription = stringResource(pageData.titleRes),
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .size(140.dp)
                             )
 
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.width(24.dp))
 
-                            Text(
-                                text = stringResource(pageData.subtitleRes),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xDDFFFFFF),
-                                lineHeight = 20.sp
-                            )
+                            Column(
+                                modifier = Modifier.weight(1f),
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = stringResource(pageData.titleRes),
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    lineHeight = 28.sp
+                                )
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Text(
+                                    text = stringResource(pageData.subtitleRes),
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    color = Color(0xDDFFFFFF),
+                                    lineHeight = 20.sp
+                                )
+                            }
                         }
                     }
                 }
@@ -182,24 +224,31 @@ fun OnboardingScreen(
                                 }
                             }
                         },
+                        enabled = !isAdLocked,
                         modifier = Modifier
                             .height(50.dp)
                             .widthIn(min = 140.dp),
                         shape = RoundedCornerShape(999.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.White,
-                            contentColor = Color(0xFF1D4ED8)
+                            contentColor = Color(0xFF1D4ED8),
+                            disabledContainerColor = Color(0x66FFFFFF),
+                            disabledContentColor = Color(0x991D4ED8)
                         ),
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp),
                         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
                     ) {
                         Text(
-                            text = stringResource(
-                                if (isLastPage) R.string.btn_get_started else R.string.btn_next
-                            ),
+                            text = if (isAdLocked) {
+                                "Next (${adCountdown}s)"
+                            } else if (isLastPage) {
+                                stringResource(R.string.btn_get_started)
+                            } else {
+                                stringResource(R.string.btn_next)
+                            },
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF1D4ED8)
+                            color = if (isAdLocked) Color(0x991D4ED8) else Color(0xFF1D4ED8)
                         )
                     }
                 }
@@ -214,56 +263,70 @@ fun OnboardingScreen(
             ) {
                 HorizontalPager(
                     state = pagerState,
+                    userScrollEnabled = !isAdLocked,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxWidth()
                 ) { pageIndex ->
                     val pageData = onboardingPages[pageIndex]
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(horizontal = 24.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Image(
-                            painter = painterResource(id = pageData.illustrationRes),
-                            contentDescription = stringResource(pageData.titleRes),
-                            contentScale = ContentScale.Fit,
+                    if (pageData.isNativeAd) {
+                        FullScreenNativeAdCard(
+                            onContinue = {
+                                if (!isAdLocked) {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(pageIndex + 1)
+                                    }
+                                }
+                            },
+                            onAdLoaded = { nativeAdLoaded = true }
+                        )
+                    } else {
+                        Column(
                             modifier = Modifier
-                                .sizeIn(maxWidth = 280.dp, maxHeight = 280.dp)
-                                .fillMaxWidth(0.75f)
-                                .aspectRatio(1f)
-                        )
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(horizontal = 24.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Spacer(modifier = Modifier.height(16.dp))
 
-                        Spacer(modifier = Modifier.height(24.dp))
+                            Image(
+                                painter = painterResource(id = pageData.illustrationRes),
+                                contentDescription = stringResource(pageData.titleRes),
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .sizeIn(maxWidth = 280.dp, maxHeight = 280.dp)
+                                    .fillMaxWidth(0.75f)
+                                    .aspectRatio(1f)
+                            )
 
-                        Text(
-                            text = stringResource(pageData.titleRes),
-                            fontSize = 28.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            textAlign = TextAlign.Center,
-                            lineHeight = 34.sp,
-                            modifier = Modifier.widthIn(max = 320.dp)
-                        )
+                            Spacer(modifier = Modifier.height(24.dp))
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                            Text(
+                                text = stringResource(pageData.titleRes),
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 34.sp,
+                                modifier = Modifier.widthIn(max = 320.dp)
+                            )
 
-                        Text(
-                            text = stringResource(pageData.subtitleRes),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.Normal,
-                            color = Color(0xDDFFFFFF),
-                            textAlign = TextAlign.Center,
-                            lineHeight = 22.sp,
-                            modifier = Modifier.widthIn(max = 310.dp)
-                        )
+                            Spacer(modifier = Modifier.height(12.dp))
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = stringResource(pageData.subtitleRes),
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = Color(0xDDFFFFFF),
+                                textAlign = TextAlign.Center,
+                                lineHeight = 22.sp,
+                                modifier = Modifier.widthIn(max = 310.dp)
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
                     }
                 }
 
@@ -295,24 +358,31 @@ fun OnboardingScreen(
                                 }
                             }
                         },
+                        enabled = !isAdLocked,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),
                         shape = RoundedCornerShape(999.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.White,
-                            contentColor = Color(0xFF1D4ED8)
+                            contentColor = Color(0xFF1D4ED8),
+                            disabledContainerColor = Color(0x66FFFFFF),
+                            disabledContentColor = Color(0x991D4ED8)
                         ),
                         elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp),
                         contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
                     ) {
                         Text(
-                            text = stringResource(
-                                if (isLastPage) R.string.btn_get_started else R.string.btn_next
-                            ),
+                            text = if (isAdLocked) {
+                                "Next (${adCountdown}s)"
+                            } else if (isLastPage) {
+                                stringResource(R.string.btn_get_started)
+                            } else {
+                                stringResource(R.string.btn_next)
+                            },
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF1D4ED8),
+                            color = if (isAdLocked) Color(0x991D4ED8) else Color(0xFF1D4ED8),
                             lineHeight = 28.sp
                         )
                     }
@@ -349,8 +419,8 @@ fun OnboardingScreenTwo(onNext: () -> Unit = {}) {
 @Composable
 fun OnboardingScreenThree(onGetStarted: () -> Unit = {}) {
     OnboardingSinglePageView(
-        pageIndex = 2,
-        pageData = onboardingPages[2],
+        pageIndex = 3,
+        pageData = onboardingPages.last(),
         onButtonClick = onGetStarted
     )
 }
@@ -361,6 +431,11 @@ private fun OnboardingSinglePageView(
     pageData: OnboardingPageData,
     onButtonClick: () -> Unit
 ) {
+    if (pageData.isNativeAd) {
+        FullScreenNativeAdCard(onContinue = onButtonClick)
+        return
+    }
+
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 

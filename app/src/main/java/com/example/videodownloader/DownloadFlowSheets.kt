@@ -1,5 +1,6 @@
 package com.example.videodownloader
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -89,8 +90,14 @@ fun DownloadFlowModal(
             when (flowStep) {
                 DownloadFlowStep.FORMAT_SELECTION -> {
                     DownloadFormatSelectionSheet(
-                        onVideoSelect = { onFormatConfirmed("video", "best") },
-                        onAudioSelect = { onFormatConfirmed("audio", "mp3") },
+                        onVideoSelect = {
+                            Log.d("AdManager", "🔘 [DownloadFlowModal] User tapped VIDEO option -> calling onFormatConfirmed('video', 'best')")
+                            onFormatConfirmed("video", "best")
+                        },
+                        onAudioSelect = {
+                            Log.d("AdManager", "🔘 [DownloadFlowModal] User tapped AUDIO option -> calling onFormatConfirmed('audio', 'mp3')")
+                            onFormatConfirmed("audio", "mp3")
+                        },
                         onCancel = onDismiss
                     )
                 }

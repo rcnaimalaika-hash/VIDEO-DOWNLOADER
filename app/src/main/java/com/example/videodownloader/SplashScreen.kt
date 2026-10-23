@@ -29,9 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
+import com.example.videodownloader.ads.SplashBottomNativeAd
+
 // ---------------------------------------------------------------------------
 // Splash Screen
-// Auto-navigates after ~2.5 seconds
+// Auto-navigates after ~4.5 seconds (4 to 5 sec display time)
 // Supports adaptive layouts for Portrait and Landscape orientations
 // ---------------------------------------------------------------------------
 
@@ -40,8 +42,17 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    // ── Entry animations ──────────────────────────────────────────────────
+    // ── Entry animations & Ad display check ──────────────────────────────
     var visible by remember { mutableStateOf(false) }
+    var adLoaded by remember { mutableStateOf(false) }
+    var hasFinished by remember { mutableStateOf(false) }
+
+    fun triggerFinished() {
+        if (!hasFinished) {
+            hasFinished = true
+            onFinished()
+        }
+    }
 
     val logoScale by animateFloatAsState(
         targetValue   = if (visible) 1f else 0.6f,
@@ -88,11 +99,22 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
         ), label = "d3"
     )
 
-    // ── Timer ─────────────────────────────────────────────────────────────
     LaunchedEffect(Unit) {
         visible = true
-        delay(2500)
-        onFinished()
+    }
+
+    // ── Ad Display Timer: When ad loads, wait 4.5 seconds while ad is shown ──
+    LaunchedEffect(adLoaded) {
+        if (adLoaded) {
+            delay(4500) // Display ad for 4 to 5 seconds before moving to next screen
+            triggerFinished()
+        }
+    }
+
+    // ── Fallback safety timer (7 seconds) in case of no internet or ad failure ──
+    LaunchedEffect(Unit) {
+        delay(7000)
+        triggerFinished()
     }
 
     // ── UI ────────────────────────────────────────────────────────────────
@@ -138,6 +160,7 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
                     .safeDrawingPadding()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 32.dp, vertical = 16.dp)
+                    .padding(bottom = 90.dp)
             ) {
                 // ── Logo illustration ──
                 Image(
@@ -145,12 +168,12 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
                     contentDescription = "Video Downloader Logo",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .size(160.dp)
+                        .size(130.dp)
                         .scale(logoScale)
                         .alpha(logoAlpha)
                 )
 
-                Spacer(modifier = Modifier.width(36.dp))
+                Spacer(modifier = Modifier.width(32.dp))
 
                 // ── Text & Loader Column ──
                 Column(
@@ -159,28 +182,27 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
                 ) {
                     Text(
                         text = "Video Downloader",
-                        fontSize = 26.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.alpha(textAlpha)
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
                         text = "Download videos from any platform\nquickly and easily",
-                        fontSize = 14.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Normal,
                         color = Color(0xCCFFFFFF),
                         textAlign = TextAlign.Center,
-                        lineHeight = 20.sp,
+                        lineHeight = 18.sp,
                         modifier = Modifier.alpha(textAlpha)
                     )
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                    // Pulsing dot loader
                     SplashDotsLoader(
                         dot1Scale = dot1Scale,
                         dot2Scale = dot2Scale,
@@ -190,18 +212,18 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
                 }
             }
         } else {
-            // ── Portrait Layout: Vertical Column with responsive scaling and scroll safety ──
+            // ── Portrait Layout: Center Branding Column ──
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .safeDrawingPadding()
+                    .statusBarsPadding()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 24.dp)
+                    .padding(bottom = 110.dp) // Clearance for full-width bottom native ad
             ) {
-
-                Spacer(modifier = Modifier.weight(1f, fill = false).heightIn(min = 20.dp))
+                Spacer(modifier = Modifier.weight(1f, fill = false).heightIn(min = 16.dp))
 
                 // ── Logo illustration ──
                 Image(
@@ -209,39 +231,37 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
                     contentDescription = "Video Downloader Logo",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .sizeIn(maxWidth = 260.dp, maxHeight = 260.dp)
-                        .fillMaxWidth(0.7f)
-                        .aspectRatio(1f)
+                        .size(150.dp)
                         .scale(logoScale)
                         .alpha(logoAlpha)
                 )
 
-                Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(18.dp))
 
                 // ── App name ──
                 Text(
                     text = "Video Downloader",
-                    fontSize = 30.sp,
+                    fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.alpha(textAlpha)
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 // ── Tagline ──
                 Text(
                     text = "Download videos from any platform\nquickly and easily",
-                    fontSize = 15.sp,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
                     color = Color(0xCCFFFFFF),
                     textAlign = TextAlign.Center,
-                    lineHeight = 22.sp,
+                    lineHeight = 20.sp,
                     modifier = Modifier.alpha(textAlpha)
                 )
 
-                Spacer(modifier = Modifier.weight(1f, fill = false).heightIn(min = 24.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 // ── Pulsing dot loader ──
                 SplashDotsLoader(
@@ -251,9 +271,17 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
                     alpha = dotAlpha
                 )
 
-                Spacer(modifier = Modifier.height(48.dp))
+                Spacer(modifier = Modifier.weight(1f, fill = false).heightIn(min = 16.dp))
             }
         }
+
+        // Placement 1: Full-Width Bottom Pinned Native Ad
+        SplashBottomNativeAd(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth(),
+            onAdLoaded = { adLoaded = true }
+        )
     }
 }
 

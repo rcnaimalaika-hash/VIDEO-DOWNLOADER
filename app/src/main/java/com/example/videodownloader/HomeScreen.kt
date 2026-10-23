@@ -1,5 +1,6 @@
 package com.example.videodownloader
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,6 +38,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import android.app.Activity
+import com.example.videodownloader.ads.AdManager
+import com.example.videodownloader.ads.LargeNativeAdCard
 import com.example.videodownloader.ui.theme.AppColors
 import kotlinx.coroutines.launch
 
@@ -165,6 +169,8 @@ fun HomeScreen(
                         }
                     )
 
+                    val activity = context as? Activity
+
                     // ── Paste Link & Download Card ───────────────────────────
                     PasteLinkCard(
                         urlText          = inputState.url,
@@ -175,8 +181,18 @@ fun HomeScreen(
                         onFormatChange   = viewModel::onFormatChange,
                         onFileTypeChange = viewModel::onFileTypeChange,
                         onPaste          = { viewModel.pasteFromClipboard(context) },
-                        onDownload       = { viewModel.startDownload() }
+                        onDownload       = {
+                            Log.d("AdManager", "🚀 [HomeScreen] PasteLinkCard 'Download' clicked -> calling viewModel.startDownload()")
+                            viewModel.startDownload()
+                        }
                     )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Placement 6: Home Screen Large Native Ad
+                    Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                        LargeNativeAdCard()
+                    }
 
                     Spacer(modifier = Modifier.height(24.dp))
                 }
@@ -186,7 +202,15 @@ fun HomeScreen(
                     flowStep = flowStep,
                     job = activeFlowJob,
                     onFormatConfirmed = { fileType, format ->
-                        viewModel.confirmFormatAndDownload(fileType, format)
+                        Log.d("AdManager", "🎯 [HomeScreen] onFormatConfirmed received for type=$fileType, format=$format -> calling AdManager.showInterstitial")
+                        AdManager.showInterstitial(
+                            context = context,
+                            placementKey = AdManager.PLACEMENT_ON_DOWNLOAD,
+                            onDismissed = {
+                                Log.d("AdManager", "🎬 [HomeScreen] Ad dismissed -> calling confirmFormatAndDownload($fileType, $format)")
+                                viewModel.confirmFormatAndDownload(fileType, format)
+                            }
+                        )
                     },
                     onCancelDownload = {
                         viewModel.cancelActiveFlow()

@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.videodownloader.ads.LargeNativeAdCard
 import com.example.videodownloader.ui.theme.AppColors
 
 // ---------------------------------------------------------------------------
@@ -98,7 +99,7 @@ fun LanguageScreen(onContinue: (Language) -> Unit = {}) {
 
         Spacer(modifier = Modifier.height(if (isLandscape) 8.dp else 20.dp))
 
-        // ── Language list ─────────────────────────────────────────────────
+        // ── Language list with Placement 5: Large Native Ad ───────────────
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
@@ -107,7 +108,24 @@ fun LanguageScreen(onContinue: (Language) -> Unit = {}) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(bottom = 12.dp)
         ) {
-            items(languages) { lang ->
+            // Top languages
+            items(languages.take(3)) { lang ->
+                LanguageRow(
+                    language = lang,
+                    isSelected = lang == selected,
+                    onClick = { selected = lang }
+                )
+            }
+
+            // Placement 5: Language Screen Large Native Ad (Prominent In-Feed Ad)
+            item {
+                Spacer(modifier = Modifier.height(4.dp))
+                LargeNativeAdCard()
+                Spacer(modifier = Modifier.height(4.dp))
+            }
+
+            // Remaining languages
+            items(languages.drop(3)) { lang ->
                 LanguageRow(
                     language = lang,
                     isSelected = lang == selected,

@@ -60,6 +60,9 @@ dependencies {
     // Coil for thumbnail loading
     implementation("io.coil-kt:coil-compose:2.6.0")
 
+    // Google Mobile Ads (AdMob) SDK
+    implementation("com.google.android.gms:play-services-ads:23.6.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

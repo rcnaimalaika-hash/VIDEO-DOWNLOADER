@@ -42,6 +42,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.app.Activity
+import com.example.videodownloader.ads.AdManager
+import com.example.videodownloader.ads.MediumNativeAdCard
 import com.example.videodownloader.ui.theme.AppColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -307,6 +310,12 @@ fun DownloadScreen(
                 contentPadding = PaddingValues(top = 12.dp, bottom = 16.dp)
             ) {
 
+                // Placement 7: Download Screen Medium Native Ad
+                item {
+                    MediumNativeAdCard()
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+
                 // ── Active / Downloading section ──────────────────────────
                 if (displayedActive.isNotEmpty()) {
                     item {
@@ -343,7 +352,13 @@ fun DownloadScreen(
                     items(failedJobs, key = { it.id }) { job ->
                         FailedDownloadCard(
                             job      = job,
-                            onRetry  = { viewModel.retryDownload(job) },
+                            onRetry  = {
+                                AdManager.showInterstitial(
+                                    context = context,
+                                    placementKey = AdManager.PLACEMENT_ON_DOWNLOAD,
+                                    onDismissed = { viewModel.retryDownload(job) }
+                                )
+                            },
                             onRemove = { viewModel.removeDownload(job.id) }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -363,7 +378,13 @@ fun DownloadScreen(
                     items(displayedCompleted, key = { it.id }) { job ->
                         CompletedDownloadCard(
                             job      = job,
-                            onPlay   = { viewModel.openDownloadedMedia(context, job) },
+                            onPlay   = {
+                                AdManager.showInterstitial(
+                                    context = context,
+                                    placementKey = AdManager.PLACEMENT_ON_DOWNLOAD,
+                                    onDismissed = { viewModel.openDownloadedMedia(context, job) }
+                                )
+                            },
                             onShare  = { viewModel.shareDownloadedMedia(context, job) },
                             onRemove = { viewModel.removeDownload(job.id, deleteFile = true) }
                         )
