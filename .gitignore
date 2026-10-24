@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Added after ZIP import
+.kotlin/
+.claude/settings.local.json

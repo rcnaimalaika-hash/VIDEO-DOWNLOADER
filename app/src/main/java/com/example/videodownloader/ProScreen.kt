@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.videodownloader.firebase.AnalyticsManager
 import com.example.videodownloader.ui.theme.AppColors
 import com.example.videodownloader.ui.theme.LocalIsDarkTheme
 
@@ -59,6 +60,10 @@ fun ProScreen(
 ) {
     var selectedPlan by remember { mutableStateOf("Yearly") }
     val isDark = LocalIsDarkTheme.current
+
+    // Prices mirrored from the plan boxes below (USD) — used for GA4 e-commerce events
+    val planPrices = remember { mapOf("Monthly" to 2.99, "Yearly" to 14.99, "Lifetime" to 29.99) }
+    LaunchedEffect(Unit) { AnalyticsManager.logProScreenView(source = "drawer") }
 
     val benefits = listOf(
         BenefitItem(
@@ -276,6 +281,7 @@ fun ProScreen(
                         onClick = {
                             selectedPlan = "Monthly"
                             onSelectPlan("Monthly")
+                            AnalyticsManager.logProPlanSelected("Monthly", planPrices.getValue("Monthly"))
                         }
                     )
 
@@ -292,6 +298,7 @@ fun ProScreen(
                         onClick = {
                             selectedPlan = "Yearly"
                             onSelectPlan("Yearly")
+                            AnalyticsManager.logProPlanSelected("Yearly", planPrices.getValue("Yearly"))
                         }
                     )
 
@@ -308,6 +315,7 @@ fun ProScreen(
                         onClick = {
                             selectedPlan = "Lifetime"
                             onSelectPlan("Lifetime")
+                            AnalyticsManager.logProPlanSelected("Lifetime", planPrices.getValue("Lifetime"))
                         }
                     )
                 }
@@ -318,7 +326,10 @@ fun ProScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
-                    onClick = onGoPremium,
+                    onClick = {
+                        AnalyticsManager.logProCheckoutStarted(selectedPlan, planPrices[selectedPlan] ?: 0.0)
+                        onGoPremium()
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)

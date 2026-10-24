@@ -26,32 +26,59 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.videodownloader.firebase.RemoteConfigManager
 import com.example.videodownloader.ui.theme.AppColors
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * State holder for a Native Ad load request in Jetpack Compose.
+ *
+ * Waits (briefly) for the first Remote Config fetch so a remote "off" switch
+ * is honoured even on the very first launch, then loads the ad for
+ * [placement] using the ad-unit id configured for it. [onAdUnavailable] fires
+ * when the placement is disabled or the load fails, so callers can collapse
+ * the slot / continue their flow.
  */
 @Composable
-fun rememberNativeAdState(): MutableState<NativeAd?> {
+fun rememberNativeAdState(
+    placement: String,
+    onAdLoaded: () -> Unit = {},
+    onAdUnavailable: () -> Unit = {}
+): State<NativeAd?> {
     val context = LocalContext.current
     val nativeAdState = remember { mutableStateOf<NativeAd?>(null) }
+    val latestOnLoaded by rememberUpdatedState(onAdLoaded)
+    val latestOnUnavailable by rememberUpdatedState(onAdUnavailable)
+    val disposed = remember { AtomicBoolean(false) }
 
-    DisposableEffect(Unit) {
+    LaunchedEffect(placement) {
+        RemoteConfigManager.awaitFirstFetch()
+        if (disposed.get()) return@LaunchedEffect
         AdManager.loadNativeAd(
             context = context,
+            placementKey = placement,
             onAdLoaded = { ad ->
-                nativeAdState.value = ad
+                if (disposed.get()) {
+                    ad.destroy()
+                } else {
+                    nativeAdState.value = ad
+                    latestOnLoaded()
+                }
             },
             onAdFailed = {
-                nativeAdState.value = null
+                if (!disposed.get()) latestOnUnavailable()
             }
         )
+    }
 
+    DisposableEffect(Unit) {
         onDispose {
+            disposed.set(true)
             nativeAdState.value?.destroy()
+            nativeAdState.value = null
         }
     }
 
@@ -65,27 +92,15 @@ fun rememberNativeAdState(): MutableState<NativeAd?> {
 @Composable
 fun SplashBottomNativeAd(
     modifier: Modifier = Modifier,
-    onAdLoaded: () -> Unit = {}
+    placement: String = AdManager.NATIVE_SPLASH,
+    onAdLoaded: () -> Unit = {},
+    onAdUnavailable: () -> Unit = {}
 ) {
-    val context = LocalContext.current
-    var nativeAd by remember { mutableStateOf<NativeAd?>(null) }
-
-    DisposableEffect(Unit) {
-        AdManager.loadNativeAd(
-            context = context,
-            onAdLoaded = { ad ->
-                nativeAd = ad
-                onAdLoaded()
-            },
-            onAdFailed = {
-                nativeAd = null
-            }
-        )
-
-        onDispose {
-            nativeAd?.destroy()
-        }
-    }
+    val nativeAd by rememberNativeAdState(
+        placement = placement,
+        onAdLoaded = onAdLoaded,
+        onAdUnavailable = onAdUnavailable
+    )
 
     if (nativeAd != null) {
         Box(
@@ -270,28 +285,15 @@ private fun populateSplashNativeAd(nativeAdView: NativeAdView, nativeAd: NativeA
 fun FullScreenNativeAdCard(
     onContinue: () -> Unit,
     modifier: Modifier = Modifier,
+    placement: String = AdManager.NATIVE_ONBOARDING,
     onAdLoaded: () -> Unit = {}
 ) {
-    val context = LocalContext.current
-    var nativeAd by remember { mutableStateOf<NativeAd?>(null) }
-
-    DisposableEffect(Unit) {
-        AdManager.loadNativeAd(
-            context = context,
-            onAdLoaded = { ad ->
-                nativeAd = ad
-                onAdLoaded()
-            },
-            onAdFailed = {
-                nativeAd = null
-                onAdLoaded()
-            }
-        )
-
-        onDispose {
-            nativeAd?.destroy()
-        }
-    }
+    // A failed / disabled load also calls onAdLoaded so the onboarding countdown never blocks.
+    val nativeAd by rememberNativeAdState(
+        placement = placement,
+        onAdLoaded = onAdLoaded,
+        onAdUnavailable = onAdLoaded
+    )
 
     Box(
         modifier = modifier
@@ -500,9 +502,10 @@ private fun populateFullScreenNativeAd(nativeAdView: NativeAdView, nativeAd: Nat
 
 @Composable
 fun LargeNativeAdCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    placement: String = AdManager.NATIVE_HOME
 ) {
-    val nativeAd by rememberNativeAdState()
+    val nativeAd by rememberNativeAdState(placement)
     val isDark = AppColors.isDark
 
     if (nativeAd != null) {
@@ -700,9 +703,10 @@ private fun populateLargeNativeAd(nativeAdView: NativeAdView, nativeAd: NativeAd
 
 @Composable
 fun MediumNativeAdCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    placement: String = AdManager.NATIVE_DOWNLOADS
 ) {
-    val nativeAd by rememberNativeAdState()
+    val nativeAd by rememberNativeAdState(placement)
     val isDark = AppColors.isDark
 
     if (nativeAd != null) {

@@ -1,0 +1,192 @@
+{
+  "conditions": [
+    {
+      "name": "debug_builds",
+      "expression": "app.userProperty['build_type'].exactlyMatches(['debug'])",
+      "tagColor": "BLUE"
+    }
+  ],
+  "parameterGroups": {
+    "Ads - Master switches": {
+      "description": "Kill switches. ads_enabled=false hides every ad in the app within seconds (real-time update).",
+      "parameters": {
+        "ads_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Master switch for ALL ads (interstitial + native). false = ad-free app."
+        },
+        "interstitial_ads_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Switch for all full-screen interstitials (app launch, get started, on download)."
+        },
+        "native_ads_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Switch for all native ad cards (splash, onboarding, language, home, downloads)."
+        },
+        "use_test_ads": {
+          "defaultValue": { "value": "false" },
+          "conditionalValues": {
+            "debug_builds": { "value": "true" }
+          },
+          "valueType": "BOOLEAN",
+          "description": "Force Google sample ad units even in release builds (QA / Play review). Debug builds always use test ads regardless."
+        }
+      }
+    },
+    "Ads - Placements": {
+      "description": "Per-placement on/off. Only matters while the master switches above are true.",
+      "parameters": {
+        "ad_splash_native_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Placement 1 - native ad pinned to the bottom of the splash screen."
+        },
+        "ad_app_launch_interstitial_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Placement 2 - interstitial shown when the splash finishes."
+        },
+        "ad_onboarding_native_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Placement 3 - full-screen sponsored page inside onboarding (page is removed when false)."
+        },
+        "ad_get_started_interstitial_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Placement 4 - interstitial after 'Get Started'."
+        },
+        "ad_language_native_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Placement 5 - large native card inside the language list."
+        },
+        "ad_home_native_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Placement 6 - large native card on the home screen."
+        },
+        "ad_downloads_native_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Placement 7 - medium native card at the top of the downloads list."
+        },
+        "ad_on_download_interstitial_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Placement 8 - interstitial before a download starts / retries."
+        }
+      }
+    },
+    "Ads - AdMob ad unit IDs": {
+      "description": "Replace the Google sample IDs with your own ad units from the AdMob console (Apps > Ad units). Format: ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY. The AdMob APP id lives in the manifest (ADMOB_APP_ID in local.properties), not here.",
+      "parameters": {
+        "admob_interstitial_app_launch_id": {
+          "defaultValue": { "value": "ca-app-pub-3940256099942544/1033173712" },
+          "valueType": "STRING",
+          "description": "Interstitial ad unit - app launch placement."
+        },
+        "admob_interstitial_get_started_id": {
+          "defaultValue": { "value": "ca-app-pub-3940256099942544/1033173712" },
+          "valueType": "STRING",
+          "description": "Interstitial ad unit - get started placement."
+        },
+        "admob_interstitial_on_download_id": {
+          "defaultValue": { "value": "ca-app-pub-3940256099942544/1033173712" },
+          "valueType": "STRING",
+          "description": "Interstitial ad unit - on download placement."
+        },
+        "admob_native_splash_id": {
+          "defaultValue": { "value": "ca-app-pub-3940256099942544/2247696110" },
+          "valueType": "STRING",
+          "description": "Native Advanced ad unit - splash screen."
+        },
+        "admob_native_onboarding_id": {
+          "defaultValue": { "value": "ca-app-pub-3940256099942544/2247696110" },
+          "valueType": "STRING",
+          "description": "Native Advanced ad unit - onboarding full-screen page."
+        },
+        "admob_native_language_id": {
+          "defaultValue": { "value": "ca-app-pub-3940256099942544/2247696110" },
+          "valueType": "STRING",
+          "description": "Native Advanced ad unit - language screen."
+        },
+        "admob_native_home_id": {
+          "defaultValue": { "value": "ca-app-pub-3940256099942544/2247696110" },
+          "valueType": "STRING",
+          "description": "Native Advanced ad unit - home screen."
+        },
+        "admob_native_downloads_id": {
+          "defaultValue": { "value": "ca-app-pub-3940256099942544/2247696110" },
+          "valueType": "STRING",
+          "description": "Native Advanced ad unit - downloads screen."
+        }
+      }
+    },
+    "Ads - Behaviour": {
+      "description": "Timing and frequency knobs.",
+      "parameters": {
+        "interstitial_min_interval_sec": {
+          "defaultValue": { "value": "30" },
+          "valueType": "NUMBER",
+          "description": "Minimum seconds between two interstitials (frequency cap). 0 disables the cap."
+        },
+        "interstitial_load_timeout_ms": {
+          "defaultValue": { "value": "4500" },
+          "valueType": "NUMBER",
+          "description": "Max time the 'Loading ad...' dialog may block before the flow continues without an ad (1000-15000)."
+        },
+        "splash_ad_display_ms": {
+          "defaultValue": { "value": "4500" },
+          "valueType": "NUMBER",
+          "description": "How long the splash stays visible once its native ad has loaded."
+        },
+        "splash_no_ad_delay_ms": {
+          "defaultValue": { "value": "2000" },
+          "valueType": "NUMBER",
+          "description": "Splash duration when the splash ad is disabled or fails to load."
+        },
+        "splash_timeout_ms": {
+          "defaultValue": { "value": "7000" },
+          "valueType": "NUMBER",
+          "description": "Hard upper bound for the splash screen (offline / ad hang)."
+        },
+        "onboarding_ad_countdown_sec": {
+          "defaultValue": { "value": "5" },
+          "valueType": "NUMBER",
+          "description": "Seconds the onboarding sponsored page is locked before 'Next' becomes enabled (0-30)."
+        }
+      }
+    },
+    "Features & Marketing": {
+      "description": "Feature flags and push segmentation.",
+      "parameters": {
+        "pro_screen_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Shows the Pro / Premium screen from the sidebar 'Go Premium' button."
+        },
+        "analytics_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Google Analytics collection switch."
+        },
+        "crashlytics_enabled": {
+          "defaultValue": { "value": "true" },
+          "valueType": "BOOLEAN",
+          "description": "Crashlytics collection switch (release builds)."
+        },
+        "push_topics": {
+          "defaultValue": { "value": "all_users,android" },
+          "valueType": "STRING",
+          "description": "Comma-separated FCM topics every install subscribes to. The app also subscribes to lang_<code> automatically."
+        }
+      }
+    }
+  },
+  "version": {
+    "description": "Initial template: ad switches, ad unit ids, timings, feature flags"
+  }
+}

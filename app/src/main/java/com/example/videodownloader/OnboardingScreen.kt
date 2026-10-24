@@ -34,7 +34,10 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+import com.example.videodownloader.ads.AdManager
 import com.example.videodownloader.ads.FullScreenNativeAdCard
+import com.example.videodownloader.firebase.AnalyticsManager
+import com.example.videodownloader.firebase.RemoteConfigManager
 
 // ---------------------------------------------------------------------------
 // Onboarding Data Models & Definitions
@@ -96,20 +99,31 @@ fun OnboardingScreen(
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { onboardingPages.size })
+    // Remote Config: drop the sponsored page entirely when `ad_onboarding_native_enabled`
+    // (or the master switches) are off. Frozen for this session so the pager stays stable.
+    val pages = remember {
+        val cfg = RemoteConfigManager.current
+        if (cfg.isNativeEnabled(AdManager.NATIVE_ONBOARDING)) onboardingPages
+        else onboardingPages.filter { !it.isNativeAd }
+    }
+    val adCountdownSec = remember { RemoteConfigManager.current.onboardingAdCountdownSec.toInt().coerceIn(0, 30) }
+
+    LaunchedEffect(Unit) { AnalyticsManager.logTutorialBegin() }
+
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { pages.size })
     val coroutineScope = rememberCoroutineScope()
-    val isLastPage = pagerState.currentPage == onboardingPages.size - 1
+    val isLastPage = pagerState.currentPage == pages.size - 1
 
     var nativeAdLoaded by remember { mutableStateOf(false) }
-    var adCountdown by remember { mutableIntStateOf(5) }
+    var adCountdown by remember { mutableIntStateOf(adCountdownSec) }
 
-    val isCurrentPageNativeAd = onboardingPages.getOrNull(pagerState.currentPage)?.isNativeAd == true
+    val isCurrentPageNativeAd = pages.getOrNull(pagerState.currentPage)?.isNativeAd == true
     val isAdLocked = isCurrentPageNativeAd && adCountdown > 0
 
     // ── Active Native Ad Display Timer (5 seconds) ──
     LaunchedEffect(pagerState.currentPage, nativeAdLoaded) {
         if (isCurrentPageNativeAd && nativeAdLoaded) {
-            adCountdown = 5
+            adCountdown = adCountdownSec
             while (adCountdown > 0) {
                 delay(1000)
                 adCountdown -= 1
@@ -139,7 +153,7 @@ fun OnboardingScreen(
                         .weight(1f)
                         .fillMaxHeight()
                 ) { pageIndex ->
-                    val pageData = onboardingPages[pageIndex]
+                    val pageData = pages[pageIndex]
                     if (pageData.isNativeAd) {
                         FullScreenNativeAdCard(
                             onContinue = {
@@ -207,7 +221,7 @@ fun OnboardingScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        repeat(onboardingPages.size) { index ->
+                        repeat(pages.size) { index ->
                             PageDot(active = pagerState.currentPage == index)
                         }
                     }
@@ -217,6 +231,7 @@ fun OnboardingScreen(
                     Button(
                         onClick = {
                             if (isLastPage) {
+                                AnalyticsManager.logTutorialComplete()
                                 onGetStarted()
                             } else {
                                 coroutineScope.launch {
@@ -268,7 +283,7 @@ fun OnboardingScreen(
                         .weight(1f)
                         .fillMaxWidth()
                 ) { pageIndex ->
-                    val pageData = onboardingPages[pageIndex]
+                    val pageData = pages[pageIndex]
                     if (pageData.isNativeAd) {
                         FullScreenNativeAdCard(
                             onContinue = {
@@ -335,7 +350,7 @@ fun OnboardingScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    repeat(onboardingPages.size) { index ->
+                    repeat(pages.size) { index ->
                         PageDot(active = pagerState.currentPage == index)
                     }
                 }
@@ -351,6 +366,7 @@ fun OnboardingScreen(
                     Button(
                         onClick = {
                             if (isLastPage) {
+                                AnalyticsManager.logTutorialComplete()
                                 onGetStarted()
                             } else {
                                 coroutineScope.launch {

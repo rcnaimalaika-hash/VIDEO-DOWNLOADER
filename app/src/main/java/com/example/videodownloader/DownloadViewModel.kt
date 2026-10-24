@@ -5,10 +5,13 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.SystemClock
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.videodownloader.firebase.AnalyticsManager
+import com.example.videodownloader.firebase.CrashReporter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -145,6 +148,9 @@ class DownloadViewModel(application: Application) : AndroidViewModel(application
         _activeFlowJobId.value = jobId
         _flowStep.value = DownloadFlowStep.DOWNLOADING
 
+        AnalyticsManager.logDownloadStart(url, fileType, format)
+        val startedAt = SystemClock.elapsedRealtime()
+
         viewModelScope.launch {
             val result = repository.startDownload(
                 rawUrl = url,
@@ -153,10 +159,12 @@ class DownloadViewModel(application: Application) : AndroidViewModel(application
                 existingJobId = jobId
             )
             if (result.isSuccess) {
+                trackDownloadSuccess(jobId, url, fileType, format, startedAt)
                 kotlinx.coroutines.delay(200)
                 _inputState.value = _inputState.value.copy(url = "", successMessage = "Download completed!")
                 _flowStep.value = DownloadFlowStep.COMPLETED
             } else {
+                trackDownloadFailure(url, fileType, result.exceptionOrNull())
                 _flowStep.value = DownloadFlowStep.NONE
                 _inputState.value = _inputState.value.copy(
                     errorMessage = result.exceptionOrNull()?.message ?: "Download failed"
@@ -166,9 +174,33 @@ class DownloadViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun cancelActiveFlow() {
-        _activeFlowJobId.value?.let { repository.cancelJob(it) }
+        _activeFlowJobId.value?.let { id ->
+            findJob(id)?.let { AnalyticsManager.logDownloadCancel(it.url, it.fileType) }
+            repository.cancelJob(id)
+        }
         _activeFlowJobId.value = null
         _flowStep.value = DownloadFlowStep.NONE
+    }
+
+    // ── Analytics helpers ─────────────────────────────────────────────────
+    private fun findJob(id: String): DownloadJob? = repository.jobs.value.find { it.id == id }
+
+    private fun trackDownloadSuccess(jobId: String, url: String, fileType: String, format: String, startedAt: Long) {
+        val job = findJob(jobId)
+        AnalyticsManager.logDownloadComplete(
+            url           = url,
+            fileType      = fileType,
+            format        = format,
+            durationMs    = SystemClock.elapsedRealtime() - startedAt,
+            fileSizeBytes = job?.totalBytes ?: 0L
+        )
+    }
+
+    private fun trackDownloadFailure(url: String, fileType: String, error: Throwable?) {
+        val message = error?.message
+        if (message == "Download cancelled") return   // user action, already tracked as download_cancel
+        AnalyticsManager.logDownloadFailed(url, fileType, message)
+        CrashReporter.log("download_failed platform=${AnalyticsManager.platformOf(url)} type=$fileType reason=$message")
     }
 
     fun dismissFlow() {
@@ -202,19 +234,29 @@ class DownloadViewModel(application: Application) : AndroidViewModel(application
 
     // ── Retry failed download ─────────────────────────────────────────────
     fun retryDownload(job: DownloadJob) {
+        AnalyticsManager.logDownloadRetry(job.url, job.fileType)
+        val startedAt = SystemClock.elapsedRealtime()
         viewModelScope.launch {
-            repository.startDownload(
+            val result = repository.startDownload(
                 rawUrl   = job.url,
                 format   = job.format,
                 fileType = job.fileType,
                 existingJobId = job.id
             )
+            if (result.isSuccess) {
+                trackDownloadSuccess(job.id, job.url, job.fileType, job.format, startedAt)
+            } else {
+                trackDownloadFailure(job.url, job.fileType, result.exceptionOrNull())
+            }
         }
     }
 
     // ── Job actions ───────────────────────────────────────────────────────
     fun pauseDownload(id: String) = repository.pauseJob(id)
-    fun cancelDownload(id: String) = repository.cancelJob(id)
+    fun cancelDownload(id: String) {
+        findJob(id)?.let { AnalyticsManager.logDownloadCancel(it.url, it.fileType) }
+        repository.cancelJob(id)
+    }
     fun removeDownload(id: String, deleteFile: Boolean = true) = repository.removeJob(id, deleteFile)
     fun clearFailedDownloads() = repository.clearFailedJobs()
 
@@ -243,6 +285,7 @@ class DownloadViewModel(application: Application) : AndroidViewModel(application
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
+            AnalyticsManager.logMediaOpened(job.fileType)
         } catch (e: Exception) {
             Toast.makeText(context, "No app available to play this file: ${e.message}", Toast.LENGTH_LONG).show()
         }
@@ -272,6 +315,7 @@ class DownloadViewModel(application: Application) : AndroidViewModel(application
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(chooser)
+            AnalyticsManager.logShareMedia(job.fileType)
         } catch (e: Exception) {
             Toast.makeText(context, "Could not share file: ${e.message}", Toast.LENGTH_SHORT).show()
         }

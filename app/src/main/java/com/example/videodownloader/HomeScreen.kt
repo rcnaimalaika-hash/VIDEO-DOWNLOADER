@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import android.app.Activity
 import com.example.videodownloader.ads.AdManager
 import com.example.videodownloader.ads.LargeNativeAdCard
+import com.example.videodownloader.firebase.RemoteConfigManager
 import com.example.videodownloader.ui.theme.AppColors
 import kotlinx.coroutines.launch
 
@@ -63,7 +64,8 @@ fun HomeScreen(
     onRateClick: () -> Unit = {},
     onHelpClick: () -> Unit = {},
     onPrivacyClick: () -> Unit = {},
-    onAboutClick: () -> Unit = {}
+    onAboutClick: () -> Unit = {},
+    onProClick: () -> Unit = {}
 ) {
     val context            = LocalContext.current
     val lifecycleOwner     = LocalLifecycleOwner.current
@@ -135,7 +137,11 @@ fun HomeScreen(
                     }
                 },
                 onDarkModeToggle = { themeViewModel.setDarkMode(it) },
-                onGoPremium = { scope.launch { drawerState.close() } }
+                onGoPremium = {
+                    scope.launch { drawerState.close() }
+                    // Feature flag: `pro_screen_enabled` in Remote Config
+                    if (RemoteConfigManager.current.proScreenEnabled) onProClick()
+                }
             )
         },
         scrimColor = Color(0x99000000)
@@ -191,7 +197,7 @@ fun HomeScreen(
 
                     // Placement 6: Home Screen Large Native Ad
                     Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                        LargeNativeAdCard()
+                        LargeNativeAdCard(placement = AdManager.NATIVE_HOME)
                     }
 
                     Spacer(modifier = Modifier.height(24.dp))

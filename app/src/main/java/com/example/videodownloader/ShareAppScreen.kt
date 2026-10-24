@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.videodownloader.firebase.AnalyticsManager
 import com.example.videodownloader.ui.theme.AppColors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -392,6 +393,7 @@ private fun ShareViaCard(context: Context, referralCode: String) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.clickable {
+                        AnalyticsManager.logShareApp(method = app.name)
                         if (app.packageName != null) {
                             try {
                                 val intent = Intent(Intent.ACTION_SEND).apply {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "543267296854",
+    "project_id": "video-downloader-bb92b",
+    "storage_bucket": "video-downloader-bb92b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543267296854:android:5557a1f1b9a98462facdf7",
+        "android_client_info": {
+          "package_name": "com.appssouls.video.downloader.app.hd.save"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCusmOAvECEm0r8qR1piuE4i6p-8WVGtGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

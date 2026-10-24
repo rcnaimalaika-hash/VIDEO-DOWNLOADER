@@ -12,6 +12,7 @@
         android:maxSdkVersion="32" />
 
     <application
+        android:name=".VideoDownloaderApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -22,10 +23,38 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.VIDEODOWNLOADER">
 
-        <!-- Google AdMob App ID (Sample/Test ID for development) -->
+        <!-- Google AdMob App ID — injected from ADMOB_APP_ID (local.properties / gradle.properties).
+             Defaults to Google's sample App ID. See app/build.gradle.kts. -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="${admobAppId}" />
+
+        <!-- Firebase Cloud Messaging defaults (used when a notification arrives while the app is
+             in the background and the system tray renders it) -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/notification_color" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="general_updates" />
+        <!-- FCM 25.1+: register the app instance with its Firebase installation ID
+             (FirebaseMessaging.register() / onRegistered). Remove this line to fall back to the
+             deprecated getToken()/onNewToken() flow — PushMessaging supports both. -->
+        <meta-data
+            android:name="firebase_messaging_installation_id_enabled"
+            android:value="true" />
+
+        <!-- Firebase Cloud Messaging service (foreground messages + token refresh) -->
+        <service
+            android:name=".firebase.AppFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".MainActivity"

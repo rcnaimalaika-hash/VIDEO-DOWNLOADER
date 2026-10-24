@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.videodownloader.ads.AdManager
 import com.example.videodownloader.ads.LargeNativeAdCard
 import com.example.videodownloader.ui.theme.AppColors
 
@@ -120,7 +121,7 @@ fun LanguageScreen(onContinue: (Language) -> Unit = {}) {
             // Placement 5: Language Screen Large Native Ad (Prominent In-Feed Ad)
             item {
                 Spacer(modifier = Modifier.height(4.dp))
-                LargeNativeAdCard()
+                LargeNativeAdCard(placement = AdManager.NATIVE_LANGUAGE)
                 Spacer(modifier = Modifier.height(4.dp))
             }
 

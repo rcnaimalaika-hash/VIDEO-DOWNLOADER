@@ -1,7 +1,26 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
+
+// ---------------------------------------------------------------------------
+// AdMob App ID (manifest-level, cannot be changed from Remote Config).
+// Put your real ID in local.properties (git-ignored) or gradle.properties:
+//     ADMOB_APP_ID=ca-app-pub-XXXXXXXXXXXXXXXX~YYYYYYYYYY
+// Falls back to Google's sample App ID so debug builds always work.
+// Ad UNIT IDs are separate and ARE controlled from Firebase Remote Config.
+// ---------------------------------------------------------------------------
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+val admobAppId: String = localProperties.getProperty("ADMOB_APP_ID")
+    ?: (project.findProperty("ADMOB_APP_ID") as String?)
+    ?: "ca-app-pub-3940256099942544~3347511713"
 
 android {
     namespace = "com.example.videodownloader"
@@ -17,6 +36,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders["admobAppId"] = admobAppId
     }
 
     buildTypes {
@@ -32,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true   // BuildConfig.DEBUG gates test ads / Crashlytics collection
     }
 }
 
@@ -62,6 +84,14 @@ dependencies {
 
     // Google Mobile Ads (AdMob) SDK
     implementation("com.google.android.gms:play-services-ads:23.6.0")
+
+    // Firebase — Analytics (Google Ads / marketing events), Cloud Messaging,
+    // Remote Config (ad on/off + ad unit IDs), Crashlytics
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.config)
+    implementation(libs.firebase.crashlytics)
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

@@ -312,7 +312,7 @@ fun DownloadScreen(
 
                 // Placement 7: Download Screen Medium Native Ad
                 item {
-                    MediumNativeAdCard()
+                    MediumNativeAdCard(placement = AdManager.NATIVE_DOWNLOADS)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
 

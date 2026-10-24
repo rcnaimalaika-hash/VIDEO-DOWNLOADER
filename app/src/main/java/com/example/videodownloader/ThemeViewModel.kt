@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import androidx.lifecycle.AndroidViewModel
+import com.example.videodownloader.firebase.AnalyticsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +28,15 @@ class ThemeViewModel(application: Application) : AndroidViewModel(application) {
     )
     val isDarkMode: StateFlow<Boolean> = _isDarkMode.asStateFlow()
 
+    init {
+        AnalyticsManager.setUserProperty(
+            AnalyticsManager.UserProperty.THEME,
+            if (_isDarkMode.value) "dark" else "light"
+        )
+    }
+
     fun setDarkMode(enabled: Boolean) {
+        if (_isDarkMode.value != enabled) AnalyticsManager.logThemeChanged(enabled)
         _isDarkMode.value = enabled
         prefs.edit().putBoolean("dark_mode", enabled).apply()
     }

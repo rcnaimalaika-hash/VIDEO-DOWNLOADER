@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
+import com.example.videodownloader.ads.AdManager
 import com.example.videodownloader.ads.SplashBottomNativeAd
+import com.example.videodownloader.firebase.RemoteConfigManager
 
 // ---------------------------------------------------------------------------
 // Splash Screen
@@ -43,8 +45,10 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     // ── Entry animations & Ad display check ──────────────────────────────
+    val config by RemoteConfigManager.config.collectAsState()
     var visible by remember { mutableStateOf(false) }
     var adLoaded by remember { mutableStateOf(false) }
+    var adUnavailable by remember { mutableStateOf(false) }
     var hasFinished by remember { mutableStateOf(false) }
 
     fun triggerFinished() {
@@ -103,17 +107,25 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
         visible = true
     }
 
-    // ── Ad Display Timer: When ad loads, wait 4.5 seconds while ad is shown ──
+    // ── Ad Display Timer: When ad loads, keep it on screen for `splash_ad_display_ms` ──
     LaunchedEffect(adLoaded) {
         if (adLoaded) {
-            delay(4500) // Display ad for 4 to 5 seconds before moving to next screen
+            delay(config.splashAdDisplayMs)
             triggerFinished()
         }
     }
 
-    // ── Fallback safety timer (7 seconds) in case of no internet or ad failure ──
+    // ── No ad (disabled in Remote Config / failed to load): move on after `splash_no_ad_delay_ms` ──
+    LaunchedEffect(adUnavailable) {
+        if (adUnavailable) {
+            delay(config.splashNoAdDelayMs)
+            triggerFinished()
+        }
+    }
+
+    // ── Fallback safety timer (`splash_timeout_ms`) in case of no internet or ad hang ──
     LaunchedEffect(Unit) {
-        delay(7000)
+        delay(config.splashTimeoutMs)
         triggerFinished()
     }
 
@@ -280,7 +292,9 @@ fun SplashScreen(onFinished: () -> Unit = {}) {
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth(),
-            onAdLoaded = { adLoaded = true }
+            placement = AdManager.NATIVE_SPLASH,
+            onAdLoaded = { adLoaded = true },
+            onAdUnavailable = { adUnavailable = true }
         )
     }
 }

@@ -44,6 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.videodownloader.firebase.AnalyticsManager
 import com.example.videodownloader.ui.theme.AppColors
 import com.example.videodownloader.ui.theme.LocalIsDarkTheme
 
@@ -60,6 +61,8 @@ fun RateAppScreen(
     val context = LocalContext.current
     val isDark = LocalIsDarkTheme.current
     var selectedRating by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(Unit) { AnalyticsManager.logRatePromptShown() }
 
     val ratingLabels = listOf(
         stringResource(R.string.rate_lbl_0),
@@ -260,6 +263,7 @@ fun RateAppScreen(
             // ── Primary Button: Rate Us Now ───────────────────────────────
             Button(
                 onClick = {
+                    AnalyticsManager.logRateSubmitted(selectedRating)
                     onRateSubmitted(selectedRating)
                     launchPlayStore(context)
                 },
@@ -306,7 +310,10 @@ fun RateAppScreen(
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
-                    .clickable { onMaybeLater() }
+                    .clickable {
+                        AnalyticsManager.logRateLater()
+                        onMaybeLater()
+                    }
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

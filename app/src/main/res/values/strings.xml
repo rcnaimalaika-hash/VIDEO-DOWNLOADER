@@ -2,6 +2,12 @@
 <resources>
     <string name="app_name">Video Downloader</string>
 
+    <!-- Notification channels (Firebase Cloud Messaging) -->
+    <string name="notification_channel_general">Updates</string>
+    <string name="notification_channel_general_desc">App news, new features and important updates</string>
+    <string name="notification_channel_promo">Offers &amp; Promotions</string>
+    <string name="notification_channel_promo_desc">Discounts, premium offers and special campaigns</string>
+
     <!-- Onboarding -->
     <string name="onboarding_title">All-in-One\nVideo Downloader</string>
     <string name="onboarding_subtitle">Download videos, shorts, reels and\nmusic from any platform in one place.</string>
