@@ -1,0 +1,65 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Simple Class Diagram" id="0">
+    <mxGraphModel dx="1290" dy="765" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="650" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="user" parent="1" style="swimlane;startSize=45;fillColor=#dae8fc;strokeColor=#000000;fontSize=18;fontStyle=1;" value="User" vertex="1">
+          <mxGeometry height="280" width="250" x="60" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="usera" parent="user" style="text;html=0;align=left;verticalAlign=top;spacing=12;fontSize=17;fillColor=#ffffff;strokeColor=#000000;" value="- userId: int&#xa;- name: String" vertex="1">
+          <mxGeometry height="110" width="250" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="userm" parent="user" style="text;html=0;align=left;verticalAlign=top;spacing=12;fontSize=17;fillColor=#ffffff;strokeColor=#000000;" value="+ downloadVideo()&#xa;+ viewDownloads()" vertex="1">
+          <mxGeometry height="125" width="250" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="video" parent="1" style="swimlane;startSize=45;fillColor=#dae8fc;strokeColor=#000000;fontSize=18;fontStyle=1;" value="Video" vertex="1">
+          <mxGeometry height="280" width="250" x="390" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="videoa" parent="video" style="text;html=0;align=left;verticalAlign=top;spacing=12;fontSize=17;fillColor=#ffffff;strokeColor=#000000;" value="- title: String&#xa;- url: String&#xa;- quality: String" vertex="1">
+          <mxGeometry height="110" width="250" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="videom" parent="video" style="text;html=0;align=left;verticalAlign=top;spacing=12;fontSize=17;fillColor=#ffffff;strokeColor=#000000;" value="+ previewVideo()" vertex="1">
+          <mxGeometry height="125" width="250" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="download" parent="1" style="swimlane;startSize=45;fillColor=#dae8fc;strokeColor=#000000;fontSize=18;fontStyle=1;" value="Download" vertex="1">
+          <mxGeometry height="280" width="250" x="720" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="downloada" parent="download" style="text;html=0;align=left;verticalAlign=top;spacing=12;fontSize=17;fillColor=#ffffff;strokeColor=#000000;" value="- downloadId: int&#xa;- progress: int&#xa;- status: String" vertex="1">
+          <mxGeometry height="110" width="250" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="downloadm" parent="download" style="text;html=0;align=left;verticalAlign=top;spacing=12;fontSize=17;fillColor=#ffffff;strokeColor=#000000;" value="+ start()&#xa;+ pause()&#xa;+ resume()&#xa;+ cancel()" vertex="1">
+          <mxGeometry height="125" width="250" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="bookmark" parent="1" style="swimlane;startSize=45;fillColor=#dae8fc;strokeColor=#000000;fontSize=18;fontStyle=1;" value="Bookmark" vertex="1">
+          <mxGeometry height="280" width="250" x="1050" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="bookmarka" parent="bookmark" style="text;html=0;align=left;verticalAlign=top;spacing=12;fontSize=17;fillColor=#ffffff;strokeColor=#000000;" value="- bookmarkId: int&#xa;- videoUrl: String" vertex="1">
+          <mxGeometry height="110" width="250" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="bookmarkm" parent="bookmark" style="text;html=0;align=left;verticalAlign=top;spacing=12;fontSize=17;fillColor=#ffffff;strokeColor=#000000;" value="+ save()&#xa;+ remove()" vertex="1">
+          <mxGeometry height="125" width="250" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;endArrow=none;html=1;fontSize=17;" target="download" value="starts">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="185" y="110" />
+              <mxPoint x="845" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="download" style="edgeStyle=orthogonalEdgeStyle;endArrow=none;html=1;fontSize=17;" target="video" value="downloads">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="user" style="edgeStyle=orthogonalEdgeStyle;endArrow=none;html=1;fontSize=17;" target="bookmark" value="saves">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="185" y="510" />
+              <mxPoint x="1175" y="510" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
