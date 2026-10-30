@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         private const val PREF_NOTIFICATION_PERMISSION_REQUESTED = "notification_permission_requested"
 
         /** Screens that are part of the launch flow — push deep-links wait until Home. */
-        private val LAUNCH_FLOW_SCREENS = setOf("splash", "onboarding", "language")
+        private val LAUNCH_FLOW_SCREENS = setOf("splash", "login", "onboarding", "language")
     }
 
     private val downloadViewModel: DownloadViewModel by viewModels()
@@ -134,13 +134,38 @@ class MainActivity : ComponentActivity() {
                                     placementKey = AdManager.PLACEMENT_APP_LAUNCH,
                                     onDismissed = {
                                         val hasCompletedFirstLaunch = prefs.getBoolean("first_launch_completed", false)
-                                        if (hasCompletedFirstLaunch) {
+                                        val isLoggedIn = prefs.getBoolean("is_logged_in", false)
+                                        if (isLoggedIn && hasCompletedFirstLaunch) {
                                             currentScreen = "home"
                                         } else {
-                                            currentScreen = "onboarding"
+                                            currentScreen = "login"
                                         }
                                     }
                                 )
+                            }
+                        )
+
+                        // Onboarding Login / Sign Up Screen (matches reference design)
+                        "login" -> LoginScreen(
+                            onLoginSuccess = { userEmail ->
+                                prefs.edit()
+                                    .putBoolean("is_logged_in", true)
+                                    .putString("logged_user_email", userEmail)
+                                    .apply()
+                                val hasCompletedFirstLaunch = prefs.getBoolean("first_launch_completed", false)
+                                if (hasCompletedFirstLaunch) {
+                                    currentScreen = "home"
+                                } else {
+                                    currentScreen = "onboarding"
+                                }
+                            },
+                            onSkip = {
+                                val hasCompletedFirstLaunch = prefs.getBoolean("first_launch_completed", false)
+                                if (hasCompletedFirstLaunch) {
+                                    currentScreen = "home"
+                                } else {
+                                    currentScreen = "onboarding"
+                                }
                             }
                         )
 
@@ -169,7 +194,7 @@ class MainActivity : ComponentActivity() {
                                     .putBoolean("language_chosen", true)
                                     .putBoolean("first_launch_completed", true)
                                     .apply()
-                                if (previousScreen != "splash" && previousScreen != "onboarding") {
+                                if (previousScreen != "splash" && previousScreen != "onboarding" && previousScreen != "login") {
                                     navigateBack()
                                 } else {
                                     currentScreen = "home"
@@ -180,6 +205,11 @@ class MainActivity : ComponentActivity() {
                     "home" -> HomeScreen(
                         viewModel        = downloadViewModel,
                         themeViewModel   = themeViewModel,
+                        userEmail        = prefs.getString("logged_user_email", null),
+                        onLogoutClick    = {
+                            prefs.edit().putBoolean("is_logged_in", false).remove("logged_user_email").apply()
+                            currentScreen = "login"
+                        },
                         onMenuClick      = {},
                         onViewAll        = { navigateTo("downloads") },
                         onBookmarkClick  = { navigateTo("bookmark") },
@@ -246,7 +276,11 @@ class MainActivity : ComponentActivity() {
                     )
 
                     "bookmark" -> BookmarkScreen(
-                        onBack = { navigateBack() }
+                        onBack = { navigateBack() },
+                        onItemClick = { item ->
+                            downloadViewModel.onUrlChange(item.url)
+                            currentScreen = "home"
+                        }
                     )
                 }
             }

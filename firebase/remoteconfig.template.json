@@ -1,11 +1,4 @@
 {
-  "conditions": [
-    {
-      "name": "debug_builds",
-      "expression": "app.userProperty['build_type'].exactlyMatches(['debug'])",
-      "tagColor": "BLUE"
-    }
-  ],
   "parameterGroups": {
     "Ads - Master switches": {
       "description": "Kill switches. ads_enabled=false hides every ad in the app within seconds (real-time update).",
@@ -27,9 +20,6 @@
         },
         "use_test_ads": {
           "defaultValue": { "value": "false" },
-          "conditionalValues": {
-            "debug_builds": { "value": "true" }
-          },
           "valueType": "BOOLEAN",
           "description": "Force Google sample ad units even in release builds (QA / Play review). Debug builds always use test ads regardless."
         }

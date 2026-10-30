@@ -160,6 +160,24 @@ class DownloadViewModel(application: Application) : AndroidViewModel(application
             )
             if (result.isSuccess) {
                 trackDownloadSuccess(jobId, url, fileType, format, startedAt)
+                findJob(jobId)?.let { completedJob ->
+                    try {
+                        val db = com.example.videodownloader.db.AppDatabaseHelper.getInstance(getApplication())
+                        db.saveDownloadRecord(
+                            com.example.videodownloader.db.DownloadHistoryEntity(
+                                jobId = completedJob.id,
+                                title = completedJob.title,
+                                url = completedJob.url,
+                                fileType = completedJob.fileType,
+                                format = completedJob.format,
+                                totalBytes = completedJob.totalBytes,
+                                localPath = completedJob.localPath,
+                                status = completedJob.status.name,
+                                dateAdded = completedJob.addedAt
+                            )
+                        )
+                    } catch (_: Exception) {}
+                }
                 kotlinx.coroutines.delay(200)
                 _inputState.value = _inputState.value.copy(url = "", successMessage = "Download completed!")
                 _flowStep.value = DownloadFlowStep.COMPLETED

@@ -1,5 +1,6 @@
 package com.example.videodownloader
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,7 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.Search
@@ -20,16 +21,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.videodownloader.db.AppDatabaseHelper
+import com.example.videodownloader.db.BookmarkEntity
 import com.example.videodownloader.ui.theme.AppColors
 
 data class BookmarkItem(
+    val id: Long = 0,
     val title: String,
+    val url: String,
     val quality: String,
     val format: String,
     val bookmarkedOn: String,
@@ -37,17 +43,68 @@ data class BookmarkItem(
     val thumbColor: Color
 )
 
-private val sampleBookmarks = emptyList<BookmarkItem>()
-
 @Composable
 fun BookmarkScreen(
     onBack: () -> Unit = {},
     onItemClick: (BookmarkItem) -> Unit = {}
 ) {
+    val context = LocalContext.current
+    val dbHelper = remember { AppDatabaseHelper.getInstance(context) }
     var searchQuery by remember { mutableStateOf("") }
+    var bookmarksList by remember { mutableStateOf<List<BookmarkItem>>(emptyList()) }
 
-    val filtered = sampleBookmarks.filter {
-        it.title.contains(searchQuery, ignoreCase = true)
+    fun refreshBookmarks() {
+        val dbBookmarks = dbHelper.getAllBookmarks()
+        if (dbBookmarks.isEmpty()) {
+            // Seed initial sample bookmarks in SQLite database for demonstration
+            dbHelper.addBookmark(
+                BookmarkEntity(
+                    title = "Sample 4K Nature Video Clip",
+                    url = "https://www.sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4",
+                    format = "MP4",
+                    duration = "01:45",
+                    dateAdded = "Oct 24, 2026"
+                )
+            )
+            dbHelper.addBookmark(
+                BookmarkEntity(
+                    title = "Modern Acoustic Beats & Audio Track",
+                    url = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                    format = "MP3",
+                    duration = "03:12",
+                    dateAdded = "Oct 28, 2026"
+                )
+            )
+        }
+
+        val updated = dbHelper.getAllBookmarks().mapIndexed { index, entity ->
+            val colorList = listOf(
+                Color(0xFF3B82F6),
+                Color(0xFF8B5CF6),
+                Color(0xFFEC4899),
+                Color(0xFF10B981),
+                Color(0xFFF59E0B)
+            )
+            BookmarkItem(
+                id = entity.id,
+                title = entity.title,
+                url = entity.url,
+                quality = if (entity.format.equals("MP3", ignoreCase = true)) "Audio HQ" else "HD 1080p",
+                format = entity.format,
+                bookmarkedOn = entity.dateAdded,
+                duration = entity.duration,
+                thumbColor = colorList[index % colorList.size]
+            )
+        }
+        bookmarksList = updated
+    }
+
+    LaunchedEffect(Unit) {
+        refreshBookmarks()
+    }
+
+    val filtered = bookmarksList.filter {
+        it.title.contains(searchQuery, ignoreCase = true) || it.url.contains(searchQuery, ignoreCase = true)
     }
 
     Column(
@@ -157,23 +214,41 @@ fun BookmarkScreen(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items(filtered) { item ->
-                    BookmarkCard(item = item, bookmarkedOnLabel = stringResource(R.string.bookmark_on), onClick = { onItemClick(item) })
+                items(filtered, key = { it.id }) { item ->
+                    BookmarkCard(
+                        item = item,
+                        bookmarkedOnLabel = stringResource(R.string.bookmark_on),
+                        onClick = { onItemClick(item) },
+                        onDelete = {
+                            val deleted = dbHelper.deleteBookmark(item.id)
+                            if (deleted) {
+                                Toast.makeText(context, "Bookmark removed from SQLite DB", Toast.LENGTH_SHORT).show()
+                                refreshBookmarks()
+                            }
+                        }
+                    )
                 }
-                item { Spacer(modifier = Modifier.height(8.dp)) }
+                item { Spacer(modifier = Modifier.height(16.dp)) }
             }
         }
     }
 }
 
 @Composable
-private fun BookmarkCard(item: BookmarkItem, bookmarkedOnLabel: String, onClick: () -> Unit) {
+private fun BookmarkCard(
+    item: BookmarkItem,
+    bookmarkedOnLabel: String,
+    onClick: () -> Unit,
+    onDelete: () -> Unit
+) {
     Row(
         modifier = Modifier
-            .fillMaxWidth().clip(RoundedCornerShape(16.dp))
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
             .background(AppColors.surface)
             .border(1.dp, AppColors.cardBorder, RoundedCornerShape(16.dp))
-            .clickable { onClick() }.padding(12.dp),
+            .clickable { onClick() }
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -200,11 +275,13 @@ private fun BookmarkCard(item: BookmarkItem, bookmarkedOnLabel: String, onClick:
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.Bookmark, null, tint = AppColors.blue, modifier = Modifier.size(13.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("$bookmarkedOnLabel\n${item.bookmarkedOn}", fontSize = 11.sp, color = AppColors.textSecondary, lineHeight = 16.sp)
+                Text("$bookmarkedOnLabel: ${item.bookmarkedOn}", fontSize = 11.sp, color = AppColors.textSecondary)
             }
         }
         Spacer(modifier = Modifier.width(4.dp))
-        Icon(Icons.Filled.MoreVert, null, tint = AppColors.textSecondary, modifier = Modifier.size(20.dp))
+        IconButton(onClick = onDelete) {
+            Icon(Icons.Filled.Delete, contentDescription = "Delete bookmark", tint = Color(0xFFEF4444), modifier = Modifier.size(20.dp))
+        }
     }
 }
 

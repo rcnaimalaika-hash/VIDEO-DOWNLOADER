@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Audiotrack
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.ContentPaste
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PlayArrow
@@ -65,7 +66,9 @@ fun HomeScreen(
     onHelpClick: () -> Unit = {},
     onPrivacyClick: () -> Unit = {},
     onAboutClick: () -> Unit = {},
-    onProClick: () -> Unit = {}
+    onProClick: () -> Unit = {},
+    userEmail: String? = null,
+    onLogoutClick: () -> Unit = {}
 ) {
     val context            = LocalContext.current
     val lifecycleOwner     = LocalLifecycleOwner.current
@@ -122,6 +125,7 @@ fun HomeScreen(
             SidebarDrawer(
                 selectedItem     = drawerItem,
                 isDarkMode       = isDarkMode,
+                userEmail        = userEmail,
                 onItemClick  = { item ->
                     drawerItem = item
                     scope.launch { drawerState.close() }
@@ -134,6 +138,7 @@ fun HomeScreen(
                         "Help & Support"  -> onHelpClick()
                         "Privacy Policy"  -> onPrivacyClick()
                         "About App"       -> onAboutClick()
+                        "Log Out"         -> onLogoutClick()
                     }
                 },
                 onDarkModeToggle = { themeViewModel.setDarkMode(it) },
@@ -320,6 +325,7 @@ private fun PasteLinkCard(
     onDownload: () -> Unit
 ) {
     val isDark = AppColors.isDark
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -348,16 +354,51 @@ private fun PasteLinkCard(
                     stringResource(R.string.home_paste_title),
                     fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AppColors.textPrimary
                 )
-                Box(
-                    modifier = Modifier
-                        .size(38.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(AppColors.surface2)
-                        .border(1.dp, AppColors.divider, RoundedCornerShape(10.dp))
-                        .clickable { onPaste() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(Icons.Filled.ContentPaste, null, tint = AppColors.blue, modifier = Modifier.size(18.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    // Bookmark button (saves URL to SQLite Database)
+                    Box(
+                        modifier = Modifier
+                            .size(38.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(AppColors.surface2)
+                            .border(1.dp, AppColors.divider, RoundedCornerShape(10.dp))
+                            .clickable {
+                                if (urlText.isNotBlank()) {
+                                    val db = com.example.videodownloader.db.AppDatabaseHelper.getInstance(context)
+                                    val title = urlText.substringAfterLast("/").substringBefore("?").takeIf { it.length > 2 } ?: "Saved Video Link"
+                                    val inserted = db.addBookmark(
+                                        com.example.videodownloader.db.BookmarkEntity(
+                                            title = title,
+                                            url = urlText.trim(),
+                                            format = "MP4"
+                                        )
+                                    )
+                                    if (inserted > 0) {
+                                        android.widget.Toast.makeText(context, "Saved to SQLite Bookmarks!", android.widget.Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        android.widget.Toast.makeText(context, "Bookmark already saved or error", android.widget.Toast.LENGTH_SHORT).show()
+                                    }
+                                } else {
+                                    android.widget.Toast.makeText(context, "Please enter a URL to bookmark", android.widget.Toast.LENGTH_SHORT).show()
+                                }
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(Icons.Filled.Bookmark, contentDescription = "Bookmark", tint = AppColors.blue, modifier = Modifier.size(18.dp))
+                    }
+
+                    // Paste button
+                    Box(
+                        modifier = Modifier
+                            .size(38.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(AppColors.surface2)
+                            .border(1.dp, AppColors.divider, RoundedCornerShape(10.dp))
+                            .clickable { onPaste() },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(Icons.Filled.ContentPaste, contentDescription = "Paste", tint = AppColors.blue, modifier = Modifier.size(18.dp))
+                    }
                 }
             }
 

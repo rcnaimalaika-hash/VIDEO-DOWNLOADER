@@ -17,6 +17,9 @@ import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -49,6 +52,7 @@ private data class SidebarNavItem(
 fun SidebarDrawer(
     selectedItem: String = "Home",
     isDarkMode: Boolean = false,
+    userEmail: String? = null,
     onItemClick: (String) -> Unit = {},
     onDarkModeToggle: (Boolean) -> Unit = {},
     onGoPremium: () -> Unit = {}
@@ -71,6 +75,7 @@ fun SidebarDrawer(
         SidebarNavItem(Icons.Outlined.HelpOutline, R.string.sidebar_help,      "Help & Support"),
         SidebarNavItem(Icons.Outlined.Shield,      R.string.sidebar_privacy,   "Privacy Policy"),
         SidebarNavItem(Icons.Filled.Info,          R.string.sidebar_about,     "About App"),
+        SidebarNavItem(Icons.AutoMirrored.Filled.Logout, R.string.sidebar_logout, "Log Out")
     )
 
     Column(
@@ -81,7 +86,7 @@ fun SidebarDrawer(
     ) {
 
         // ── Blue header (always blue regardless of dark mode) ─────────────
-        DrawerHeader(isDark = isDark)
+        DrawerHeader(isDark = isDark, userEmail = userEmail)
 
         // ── Scrollable items ──────────────────────────────────────────────
         Column(
@@ -136,7 +141,7 @@ fun SidebarDrawer(
 // ---------------------------------------------------------------------------
 
 @Composable
-private fun DrawerHeader(isDark: Boolean) {
+private fun DrawerHeader(isDark: Boolean, userEmail: String? = null) {
     // Bottom wave color matches the drawer background
     val waveColor = if (isDark) Color(0xFF1A1D27) else Color.White
 
@@ -180,12 +185,24 @@ private fun DrawerHeader(isDark: Boolean) {
                     }
                 }
                 Spacer(modifier = Modifier.width(14.dp))
-                Text(
-                    text = stringResource(R.string.sidebar_app_name),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+                Column {
+                    Text(
+                        text = stringResource(R.string.sidebar_app_name),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    if (!userEmail.isNullOrBlank()) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = userEmail,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color(0xDDFFFFFF),
+                            maxLines = 1
+                        )
+                    }
+                }
             }
         }
     }
