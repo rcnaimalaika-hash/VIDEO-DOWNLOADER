@@ -1,0 +1,94 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="video-downloader" name="Use Case Diagram">
+    <mxGraphModel dx="1720" dy="1020" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="boundary" parent="1" style="swimlane;startSize=55;horizontal=1;fillColor=#ffffff;strokeColor=#000000;fontSize=24;fontStyle=1;rounded=0;" value="Video Downloader" vertex="1">
+          <mxGeometry height="950" width="1060" x="230" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="user" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" value="User" vertex="1">
+          <mxGeometry height="150" width="80" x="70" y="365" as="geometry" />
+        </mxCell>
+        <mxCell id="download" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Download Video" vertex="1">
+          <mxGeometry height="70" width="310" x="365" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="user-download" edge="1" parent="1" source="user" style="endArrow=none;html=1;strokeColor=#555555;" target="download" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="progress" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="View Download Progress" vertex="1">
+          <mxGeometry height="70" width="310" x="365" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="user-progress" edge="1" parent="1" source="user" style="endArrow=none;html=1;strokeColor=#555555;" target="progress" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pause" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Pause / Resume Download" vertex="1">
+          <mxGeometry height="70" width="310" x="365" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="user-pause" edge="1" parent="1" source="user" style="endArrow=none;html=1;strokeColor=#555555;" target="pause" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cancel" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Cancel Download" vertex="1">
+          <mxGeometry height="70" width="310" x="365" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="user-cancel" edge="1" parent="1" source="user" style="endArrow=none;html=1;strokeColor=#555555;" target="cancel" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="history" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="View Downloads &amp; History" vertex="1">
+          <mxGeometry height="70" width="310" x="365" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="user-history" edge="1" parent="1" source="user" style="endArrow=none;html=1;strokeColor=#555555;" target="history" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bookmarks" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Manage Bookmarks" vertex="1">
+          <mxGeometry height="70" width="310" x="365" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="user-bookmarks" edge="1" parent="1" source="user" style="endArrow=none;html=1;strokeColor=#555555;" target="bookmarks" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="validate" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Validate URL" vertex="1">
+          <mxGeometry height="70" width="300" x="935" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="preview" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Preview Video" vertex="1">
+          <mxGeometry height="70" width="300" x="935" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="quality" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Select Quality / Format" vertex="1">
+          <mxGeometry height="70" width="300" x="935" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="language" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Change Language" vertex="1">
+          <mxGeometry height="70" width="300" x="935" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="settings" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=17;" value="Manage Settings" vertex="1">
+          <mxGeometry height="70" width="300" x="935" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="include-validate" edge="1" parent="1" source="download" style="endArrow=open;endFill=0;dashed=1;html=1;fontSize=14;" target="validate" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="include-preview" edge="1" parent="1" source="download" style="endArrow=open;endFill=0;dashed=1;html=1;fontSize=14;" target="preview" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="include-quality" edge="1" parent="1" source="download" style="endArrow=open;endFill=0;dashed=1;html=1;fontSize=14;" target="quality" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user-language" edge="1" parent="1" source="user" style="endArrow=none;html=1;strokeColor=#555555;" target="language" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="940" />
+              <mxPoint x="875" y="940" />
+              <mxPoint x="875" y="675" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="user-settings" edge="1" parent="1" source="user" style="endArrow=none;html=1;strokeColor=#555555;" target="settings" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="220" y="840" />
+              <mxPoint x="850" y="890" />
+              <mxPoint x="850" y="795" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
